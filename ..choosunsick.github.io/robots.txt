@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://choosunsick.github.io/sitemap.xml

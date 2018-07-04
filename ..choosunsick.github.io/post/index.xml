@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Even - A super concise theme for Hugo</title>
+    <link>https://choosunsick.github.io/post/</link>
+    <description>Recent content in Posts on Even - A super concise theme for Hugo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>UTF-8</language>
+    <lastBuildDate>Wed, 04 Jul 2018 16:34:13 +0900</lastBuildDate>
+    
+	<atom:link href="https://choosunsick.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Test Content</title>
+      <link>https://choosunsick.github.io/post/test-content/</link>
+      <pubDate>Wed, 04 Jul 2018 16:34:13 +0900</pubDate>
+      
+      <guid>https://choosunsick.github.io/post/test-content/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
