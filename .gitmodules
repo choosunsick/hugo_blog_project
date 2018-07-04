@@ -1,0 +1,4 @@
+[submodule "choosunsick.github.io"]
+	path = choosunsick.github.io
+	url = https://github.com/choosunsick/choosunsick.github.io.git
+	branch = master
