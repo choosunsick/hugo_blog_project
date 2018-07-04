@@ -83,3 +83,6 @@ head(normal_season_data)
 53 2010-03-28 14:00 대구     LG          4        9 삼성 정규시즌     홈승
 
 ```
+
+
+![시각화 결과](/Users/choosunsick/Desktop/kboprject/kbo_data/doosangraph.jpeg)
