@@ -30,7 +30,7 @@ draft: FALSE
 
 ```
 #파일을 읽어옵니다.
-kbo_total<-read.csv("kBO_total_renew.csv",header = TRUE,stringsAsFactors = FALSE)
+kbo_total<-read.csv("kBO_light.csv",header = TRUE,stringsAsFactors = FALSE)
 
 #읽어온 파일을 확인합니다.
 head(kbo_total)
@@ -85,4 +85,4 @@ head(normal_season_data)
 ```
 
 
-![시각화 결과](/Users/choosunsick/Desktop/kboprject/kbo_data/doosangraph.jpeg)
+![시각화 결과](/static/doosangraph.jpeg)
