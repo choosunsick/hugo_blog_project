@@ -4,7 +4,7 @@ date: 2018-07-04T18:05:38+09:00
 draft: FALSE
 ---
 
-## KBO_data
+# KBO_data
 
 안녕하세요. 외대 철학과 스터디 그룹 LOPES의 추선식 입니다.
 
@@ -85,4 +85,4 @@ head(normal_season_data)
 ```
 
 
-![시각화 결과](/static/doosangraph.jpeg)
+![시각화 결과](/Users/choosunsick/Documents/GitHub/hugo_blog/static/doosangraph.jpeg "시각화결과")
