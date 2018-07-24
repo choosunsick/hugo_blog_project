@@ -12,6 +12,8 @@ paginate = 5                                              # 首页每页显示�
 disqusShortname = ""      # disqus_shortname
 googleAnalytics = ""      # UA-XXXXXXXX-X
 copyright = ""            # default: author.name ↓        # 默认为下面配置的author.name ↓
+hasMath = true
+
 
 [author]                  # essential                     # 必需
   name = "Sunsick"
@@ -147,9 +149,6 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
       f-google = "https://www.google.com/"
       g-github = "https://github.com/choosunsick"
 
-  [params.mathjaxEnableSingleDollar]
-
-    tex2jax = true
 
 
 # 将下面这段配置取消注释可以使 hugo 生成 .md 文件
