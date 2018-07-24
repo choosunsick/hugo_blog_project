@@ -12,8 +12,7 @@ paginate = 5                                              # 首页每页显示�
 disqusShortname = ""      # disqus_shortname
 googleAnalytics = ""      # UA-XXXXXXXX-X
 copyright = ""            # default: author.name ↓        # 默认为下面配置的author.name ↓
-mathjax = true
-hasMath = true
+
 
 [author]                  # essential                     # 必需
   name = "Sunsick"
@@ -72,9 +71,9 @@ hasMath = true
   toc = true                                                                            # 是否开启目录
   autoCollapseToc = false   # Auto expand and collapse toc                              # 目录自动展开/折叠
   fancybox = true           # see https://github.com/fancyapps/fancybox                 # 是否启用fancybox（图片可点击）
-  mathjax = false           # see https://www.mathjax.org/                              # 是否使用mathjax（数学公式）
-  mathjaxEnableSingleDollar = false                                                     # 是否使用 $...$ 即可進行inline latex渲染
-  mathjaxEnableAutoNumber = false                                                       # 是否使用公式自动编号
+  mathjax = true           # see https://www.mathjax.org/                              # 是否使用mathjax（数学公式）
+  mathjaxEnableSingleDollar = true                                                     # 是否使用 $...$ 即可進行inline latex渲染
+  mathjaxEnableAutoNumber = true                                                      # 是否使用公式自动编号
 
   postMetaInFooter = true   # contain author, lastMod, markdown link, license           # 包含作者，上次修改时间，markdown链接，许可信息
   linkToMarkDown = false    # Only effective when hugo will output .md files.           # 链接到markdown原始文件（仅当允许hugo生成markdown文件时有效）
@@ -130,7 +129,7 @@ hasMath = true
     options = ""
 
   [params.sequenceDiagrams] # see https://blog.olowolo.com/example-site/post/js-sequence-diagrams/
-    enable = false
+    enable = true
     options = ""            # default: "{theme: 'simple'}"
 
   [params.busuanzi]         # count web traffic by busuanzi                             # 是否使用不蒜子统计站点访问量
@@ -148,8 +147,6 @@ hasMath = true
 
       f-google = "https://www.google.com/"
       g-github = "https://github.com/choosunsick"
-
-
 
 # 将下面这段配置取消注释可以使 hugo 生成 .md 文件
 # Uncomment these options to make hugo output .md files.
