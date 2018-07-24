@@ -147,7 +147,9 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
       f-google = "https://www.google.com/"
       g-github = "https://github.com/choosunsick"
 
+  [params.mathjaxEnableSingleDollar]
 
+    tex2jax = true
 
 
 # 将下面这段配置取消注释可以使 hugo 生成 .md 文件
