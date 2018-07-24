@@ -149,6 +149,19 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
 
 
 
+<!-- top of page -->
+{{ if .GetParam "hasMath"}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/contrib/auto-render.min.js"></script>
+{{ end }}
+
+<!-- bottom of page -->
+{{ if .GetParam "hasMath"}}
+<script>renderMathInElement(document.body);</script>
+{{ end }}
+
+
 # 将下面这段配置取消注释可以使 hugo 生成 .md 文件
 # Uncomment these options to make hugo output .md files.
 #[mediaTypes]
