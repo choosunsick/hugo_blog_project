@@ -85,4 +85,4 @@ head(normal_season_data)
 ```
 
 
-![시각화 결과](/Users/choosunsick/Documents/GitHub/hugo_blog/static/doosangraph.jpeg "시각화결과")
+![시각화 결과](/images/doosangraph.png)
