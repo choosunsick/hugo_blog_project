@@ -230,21 +230,21 @@ Runs.score.estimate.result
 이렇게 추정한 정보와 더불어 현재 기대 승률과 실제 승률 그리고 전년도 포스트시즌 진출팀의 평균 승률 간의 비교를 통해 상위 5개 팀의 가을 야구 가능성을 점쳐 볼 수 있습니다. 기대 승률과 평균 승률 간 비교하는 열은 전반기까지의 성적만으로도 포스트시즌에 가기에 충분한지 즉 기대 승률이 평균 승률과 같거나 높으면 전반기와 같은 득점과 실점 추세를 유지한다면 충분히 올라갈 수 있다는 의미합니다. 이어서 기대 승률과 실제 승률 간 비교 열은 전반기에 해당팀이 얼마나 전략적으로 잘해왔는지 혹은 운이 좋았는지를 말해줍니다.
 
 ```
-table.result<-cbind(Topfive.team.2018.win.percentage,Topfive.team.2018.expectation,Runs.score.estimate.result[,2:3],작년포스트시즌진출팀평균승률=win.percentage.mean,기대vs평균=Topfive.team.2018.expectation$기대승률>win.percentage.mean,기대vs실제=Topfive.team.2018.expectation$기대승률>Topfive.team.2018.win.percentage$승률)
+table.result<-cbind(Topfive.team.2018.win.percentage,Topfive.team.2018.expectation,Runs.score.estimate.result[,2:3],평균승률=win.percentage.mean,기대vs평균=Topfive.team.2018.expectation$기대승률>win.percentage.mean,기대vs실제=Topfive.team.2018.expectation$기대승률>Topfive.team.2018.win.percentage$승률)
 
 table.result
 ```
 
-|  이름  |  승  |  패  |  무  |   승률    |  총득점  | 총실점 |    기대승률    |   
-|:---- |:----:|:----:|:----:|:---------:|:-----:|:-----:|:-----------:|
-| 두산  |  58   |  29  | 없음 | 0.6666667 |  555  |  435  |  0.6194570  |       
-| 한화  |  52   |  37  | 없음 | 0.5842697 |  438  |  441  |  0.4965871  |      
-| SK   |  48   |  37  |  1  | 0.5647059 |  480  |  405  |  0.5841415  |        
-| LG   |  48   |  41  |  1  | 0.5393258 |  503  |  458  |  0.5467238  |       
-| 넥센  |  46   |  46  | 없음 | 0.5000000 |  497  |  472  |  0.5257826  |      
+| 이름 | 승 | 패 |  무  |    승률   | 총득점 | 총실점 |  기대승률 |
+|:----:|:--:|:--:|:----:|:---------:|:------:|:------:|:---------:|
+| 두산 | 58 | 29 | 없음 | 0.6666667 | 555    | 435    | 0.6194570 |
+| 한화 | 52 | 37 | 없음 | 0.5842697 | 438    | 441    | 0.4965871 |
+| SK   | 48 | 37 | 1    | 0.5647059 | 480    | 405    | 0.5841415 |
+| LG   | 48 | 41 | 1    | 0.5393258 | 503    | 458    | 0.5467238 |
+| 넥센 | 46 | 46 | 없음 | 0.5000000 | 497    | 472    | 0.5257826 |  
 
 
-| 이름  | 목표득점 |  요구득점  |작년포스트시즌평균승률|기대vs평균|기대vs실제|
+| 이름  | 목표득점 |  요구득점  |     평균승률     |기대vs평균|기대vs실제|
 |:---- |:------:|:--------:|:-------------:|:-----:|:-------:|
 | 두산  |  781   |   226    |   0.5704552   |  TRUE |  FALSE  |
 | 한화  |  945   |   507    |   0.5704552   | FALSE |  FALSE  |
@@ -273,31 +273,33 @@ Allteam.expectation.2017<-do.call(rbind,lapply(1:10,FUN = function(i){pythagorea
 Allteam.Runs.score.estimate.2018<-Runs.score.estimate(Allteam.expectation.2017$총실점,win.percentage.mean)
 Allteam.Runs.score.estimate.result<-data.frame(현재득점=Allteam.expectation$총득점,목표득점=Allteam.Runs.score.estimate.2018,요구득점=Allteam.Runs.score.estimate.2018-Allteam.expectation$총득점,row.names = Allteam)
 
-Allteam.table<-cbind(Allteam.win.percentage,Allteam.expectation,Allteam.Runs.score.estimate.result[,2:3],작년포스트시즌진출팀평균승률=win.percentage.mean,기대vs평균=Allteam.expectation$기대승률>win.percentage.mean,기대vs실제=Allteam.expectation$기대승률>Allteam.win.percentage$승률)
+Allteam.table<-cbind(Allteam.win.percentage,Allteam.expectation,Allteam.Runs.score.estimate.result[,2:3],평균승률=win.percentage.mean,기대vs평균=Allteam.expectation$기대승률>win.percentage.mean,기대vs실제=Allteam.expectation$기대승률>Allteam.win.percentage$승률)
 row.names(Allteam.table) <- Allteam
 Allteam.table<-Allteam.table[order(Allteam.table$승률,decreasing = TRUE),]
 Allteam.table
 ```
 
-    ##      승 패          무      승률 총득점 총실점  기대승률 목표득점 요구득점
-    ## 두산 58 29 무승부 없음 0.6666667    555    435 0.6194570      781      226
-    ## 한화 52 37 무승부 없음 0.5842697    438    441 0.4965871      945      507
-    ## SK   48 37           1 0.5647059    480    405 0.5841415      884      404
-    ## LG   48 41           1 0.5393258    503    458 0.5467238      780      277
-    ## 넥센 46 46 무승부 없음 0.5000000    497    472 0.5257826      880      383
-    ## 기아 40 45 무승부 없음 0.4705882    485    465 0.5210433      856      371
-    ## 삼성 39 49           2 0.4431818    464    522 0.4413793     1050      586
-    ## 롯데 37 47           2 0.4404762    480    511 0.4687490      808      328
-    ## KT   35 50           2 0.4117647    441    486 0.4515704     1010      569
-    ## NC   34 56 무승부 없음 0.3777778    364    512 0.3357389      859      495
-    ##      작년포스트시즌진출팀평균승률 기대vs평균 기대vs실제
-    ## 두산                    0.5704552       TRUE      FALSE
-    ## 한화                    0.5704552      FALSE      FALSE
-    ## SK                      0.5704552       TRUE       TRUE
-    ## LG                      0.5704552      FALSE       TRUE
-    ## 넥센                    0.5704552      FALSE       TRUE
-    ## 기아                    0.5704552      FALSE       TRUE
-    ## 삼성                    0.5704552      FALSE      FALSE
-    ## 롯데                    0.5704552      FALSE       TRUE
-    ## KT                      0.5704552      FALSE       TRUE
-    ## NC                      0.5704552      FALSE      FALSE
+    ##     승 패    무        승률      총득점   총실점   기대승률     목표득점
+
+    ## 두산 58 29 무승부 없음 0.6666667    555    435  0.6194570      781      
+    ## 한화 52 37 무승부 없음 0.5842697    438    441  0.4965871      945      
+    ## SK  48 37    1     0.5647059    480    405  0.5841415      884      
+    ## LG  48 41    1     0.5393258    503    458  0.5467238      780      
+    ## 넥센 46 46 무승부 없음 0.5000000    497    472  0.5257826      880      
+    ## 기아 40 45 무승부 없음 0.4705882    485    465  0.5210433      856      
+    ## 삼성 39 49    2     0.4431818    464    522  0.4413793     1050      
+    ## 롯데 37 47    2     0.4404762    480    511  0.4687490      808      
+    ## KT  35 50    2     0.4117647    441    486  0.4515704     1010      
+    ## NC  34 56 무승부 없음 0.3777778    364    512  0.3357389      859     
+
+    ##        요구득점     평균승률      기대vs평균   기대vs실제
+    ## 두산     226      0.5704552       TRUE      FALSE
+    ## 한화     507      0.5704552      FALSE      FALSE
+    ## SK      404      0.5704552       TRUE       TRUE
+    ## LG      277      0.5704552      FALSE       TRUE
+    ## 넥센     383      0.5704552      FALSE       TRUE
+    ## 기아     371      0.5704552      FALSE       TRUE
+    ## 삼성     586      0.5704552      FALSE      FALSE
+    ## 롯데     328      0.5704552      FALSE       TRUE
+    ## KT      569      0.5704552      FALSE       TRUE
+    ## NC      495      0.5704552      FALSE      FALSE
