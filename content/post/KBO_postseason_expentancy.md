@@ -234,6 +234,7 @@ table.result<-cbind(Topfive.team.2018.win.percentage,Topfive.team.2018.expectati
 
 table.result
 ```
+결과표
 
 | 이름 | 승 | 패 |  무  |    승률   | 총득점 | 총실점 |  기대승률 |
 |:----:|:--:|:--:|:----:|:---------:|:------:|:------:|:---------:|
