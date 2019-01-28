@@ -1,6 +1,6 @@
 baseURL = "https://choosunsick.github.io"
-languageCode = "UTF-8"
-defaultContentLanguage = "UTF-8"                            # en / zh-cn / ... (This field determines which i18n file to use)
+languageCode = "ko"
+defaultContentLanguage = "ko"                            # en / zh-cn / ... (This field determines which i18n file to use)
 title = "Sunsick's blog"
 preserveTaxonomyNames = true
 enableRobotsTXT = true
