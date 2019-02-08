@@ -5,23 +5,25 @@ draft: False
 ---
 
 안녕하세요. LOPES 팀의 추선식 입니다. 이번에 저희 팀에서 KBO 사이트의 경기 리뷰와 관련된 자료를 파이썬(PYTHON)을 이용해 수집하는 코드를 작성했고 이를 공유하고자 합니다. 저희 팀에서 [이전에 수집한 데이터](https://github.com/choosunsick/KBO_data)는 경기 결과를 수집했습니다. 그러나 이 자료만으로는 할 수 있는 분석에 한계가 있었습니다. 또한, 미국의 MLB 자료처럼 한국의 KBO 자료도 쉽게 찾아보고 다루기 위해 KBO 경기의 선수들 기록을 수집하는 [프로젝트](https://github.com/LOPES-HUFS/KBO_Data_Wrangling)를 시작했습니다.
- 위의 프로젝트에서 데이터를 수집할 출처는 KBO 홈페이지의 경기 [리뷰 페이지](https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx)입니다. 데이터를 수집하는 파이썬 코드를 작동시키기에 앞서 준비작업이 필요합니다. 먼저 위 프로젝트의 링크로 들어가서 깃(git)이나 [깃허브 데스크톱](https://desktop.github.com/)을 사용하여 이 프로젝트를 클론하거나 zip 파일로 다운로드해줍니다. 프로젝트의 파일들을 다운로드 한 이후 코드를 실행하는데 필요한 것들을 설치해야 합니다.
+
+위의 프로젝트에서 데이터를 수집할 출처는 KBO 홈페이지의 경기 [리뷰 페이지](https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx)입니다. 데이터를 수집하는 파이썬 코드를 작동시키기에 앞서 준비작업이 필요합니다. 먼저 위 프로젝트의 링크로 들어가서 깃(git)이나 [깃허브 데스크톱](https://desktop.github.com/)을 사용하여 이 프로젝트를 클론하거나 zip 파일로 다운로드해줍니다. 프로젝트의 파일들을 다운로드 한 이후 코드를 실행하는데 필요한 것들을 설치해야 합니다.
 
 ## 준비작업: pipenv와 selenium-chrome driver 설치
 
-윈도우에서 파이썬 가상환경, 셀레니움 크롬드라이버의 설치는 다음과 같습니다. 먼저 [아나콘다](https://www.anaconda.com/download/#windows)로 파이썬을 설치합니다. 아나콘다를 통해 파이썬이 설치된 이후 pipenv와 셀레니움-크롬드라이버의 설치는 자세한 내용은 다음 [링크](https://github.com/LOPES-HUFS/KBO_Data_Wrangling/wiki/윈도우에-셀리리움-설치)를 따라하여 진행해주시면 감사하겠습니다. 위 링크를 진행하는 와중에 주의할 점은 크롬드라이버의 압축을 저희 깃허브를 다운로드해서 생긴 폴더에 풀어주셔야 한다는 것입니다. 
- 우분투와 맥의 경우 가상환경의 설치는 [가상환경설치](https://pipenv.readthedocs.io/en/latest/)를 참조하시면 됩니다. 이어서 우분투와 맥에서 셀레니움과 크롬드라이버의 설치입니다. 먼저 우분투에서 셀레니움과 크롬드라이버의 설치는 다음의 코드로 쉽게할 수 있습니다.
+윈도우에서 파이썬 가상환경, 셀레니움 크롬드라이버의 설치는 다음과 같습니다. 먼저 [아나콘다](https://www.anaconda.com/download/#windows)로 파이썬을 설치합니다. 설치 이후 pipenv와 셀레니움-크롬드라이버의 설치해야 합니다. 그에 대한 자세한 내용은 다음 [링크](https://github.com/LOPES-HUFS/KBO_Data_Wrangling/wiki/윈도우에-셀리리움-설치)를 따라 진행해주시면 감사하겠습니다. 진행 간에 주의할 점은 크롬드라이버의 압축을 저희 깃허브에서 다운로드 후 생기는 폴더에 풀어주셔야 한다는 것입니다.
+
+우분투와 맥의 가상환경 설치는 [가상환경설치 링크](https://pipenv.readthedocs.io/en/latest/)를 참조하시면 됩니다. 이어서 우분투와 맥에서 셀레니움과 크롬드라이버의 설치입니다. 먼저 우분투에서 셀레니움과 크롬드라이버의 설치는 다음의 코드로 쉽게할 수 있습니다.
 
 ```
 sudo apt-get install chromium-chromedriver
 sudo apt-get install python3-selenium
 ```
 
-맥에서 크롬드라이버 설치는 [셀레니움 크롬드라이버 설치](http://www.epistemology.pe.kr/2018/09/25/1153)를 참조하시면 됩니다. 셀레니움과 크롬드라이버가 설치되어 가상환경에서 제대로 작동된다면 코드를 작동시키기 위한 준비는 끝났습니다. 준비작업에 대한 자세한 내용은 프로젝트의 [README 파일](https://github.com/LOPES-HUFS/KBO_Data_Wrangling/blob/master/README.md)을 참고해주세요.
+맥에서 크롬드라이버 설치는 [셀레니움 크롬드라이버 설치 링크](http://www.epistemology.pe.kr/2018/09/25/1153)를 참조하시면 됩니다. 셀레니움과 크롬드라이버가 설치되어 가상환경에서 제대로 작동된다면 코드를 작동시키기 위한 준비는 끝났습니다. 준비작업에 대한 자세한 내용은 프로젝트의 [README 파일](https://github.com/LOPES-HUFS/KBO_Data_Wrangling/blob/master/README.md)을 참고해주세요.
 
 ## 한 경기의 데이터 수집하고 확인해보기
 
-위에서 준비작업을 마쳤으면 가상환경에서 프로젝트를 실행시킬 수 있습니다. 먼저 이 프로젝트를 받은 폴더 위치(pipfile.lock 파일이 있는 위치)로 이동합니다. 그 다음 아래의 코드를 통해 가상환경을 실행하여 프로젝트에서 사용하는 패키지들을 받아줍니다.
+위의 준비작업을 마쳤으면 가상환경에서 프로젝트를 실행시킬 수 있습니다. 먼저 이 프로젝트를 받은 폴더 위치(pipfile.lock 파일이 있는 위치)로 이동합니다. 다음의 코드로 가상환경을 실행하여 프로젝트에서 사용하는 패키지들을 받아줍니다.
 
 ```
 pipenv shell
