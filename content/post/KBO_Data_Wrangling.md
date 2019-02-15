@@ -14,7 +14,7 @@ draft: False
 
 우분투와 맥의 가상환경 설치는 [가상환경설치 링크](https://pipenv.readthedocs.io/en/latest/)를 참조하시면 됩니다. 이어서 우분투와 맥에서 셀레니움과 크롬드라이버의 설치입니다. 먼저 우분투에서 셀레니움과 크롬드라이버의 설치는 다음의 코드로 쉽게할 수 있습니다.
 
-```
+```bash
 sudo apt-get install chromium-chromedriver
 sudo apt-get install python3-selenium
 ```
