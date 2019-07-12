@@ -2,6 +2,7 @@
 title: "KBO_update"
 date: 2018-07-04T18:05:38+09:00
 draft: FALSE
+categories: ["R", "Data Analysis"]
 ---
 
 # KBO_data

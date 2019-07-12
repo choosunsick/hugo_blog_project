@@ -2,6 +2,7 @@
 title: "한국 주식 자료 소개"
 date: 2018-08-31T15:42:21+09:00
 draft: False
+categories: ["R", "Data Analysis"]
 ---
 
 # 깃허브 설명

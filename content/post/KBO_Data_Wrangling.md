@@ -2,6 +2,7 @@
 title: "KBO 경기에서 선수들의 기록 데이터 수집하고 분석하기"
 date: 2019-02-07T16:30:58+09:00
 draft: False
+categories: ["Data Analysis"]
 ---
 
 안녕하세요. LOPES 팀의 추선식 입니다. 이번에 저희 팀에서 KBO 사이트의 경기 리뷰와 관련된 자료를 파이썬(PYTHON)을 이용해 수집하는 코드를 작성했고 이를 공유하고자 합니다. 저희 팀에서 [이전에 수집한 데이터](https://github.com/choosunsick/KBO_data)는 경기 결과를 수집했습니다. 그러나 이 자료만으로는 할 수 있는 분석에 한계가 있었습니다. 또한, 미국의 MLB 자료처럼 한국의 KBO 자료도 쉽게 찾아보고 다루기 위해 KBO 경기의 선수들 기록을 수집하는 [프로젝트](https://github.com/LOPES-HUFS/KBO_Data_Wrangling)를 시작했습니다.

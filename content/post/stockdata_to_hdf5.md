@@ -2,7 +2,7 @@
 title: "R을 사용해 모든 주식 종목 데이터를 하나의 파일로 저장하기"
 date: 2019-07-10T17:16:03+09:00
 draft: False
-categories: ["R"], ["Data Analysis"] 
+categories: ["R", "Data Analysis"] 
 ---
 
 안녕하세요. 스터디 그룹 LOPES의 추선식 입니다. 이전의 [프로젝트](https://github.com/LOPES-HUFS/Korea_Stocks_for_HDF5) 소개글에서 언급한 것과 같이 이번에는 HDF5 형식에 대한 간략한 소개와 함께 R을 사용해 HDF5 파일을 만드는 튜토리얼을 소개하겠습니다. 간단한 튜토리얼에 이어서 전체 주식 종목을 하나의 HDF5 파일로 만들면서 HDF5 파일이 가지는 가장 큰 장점인 압축하는 기능에 대해서 알아볼 것입니다. 그럼 본격적으로 들어가기에 앞서서 HDF5 파일 형식이 무엇인지부터 알아보겠습니다.
