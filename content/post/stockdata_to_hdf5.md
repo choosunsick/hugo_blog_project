@@ -2,7 +2,7 @@
 title: "R을 사용해 모든 주식 종목 데이터를 하나의 파일로 저장하기"
 date: 2019-07-10T17:16:03+09:00
 draft: False
-categories: ["R", "Data Analysis"] 
+categories: ["R", "Data Analysis"]
 ---
 
 안녕하세요. 스터디 그룹 LOPES의 추선식 입니다. 이전의 [프로젝트](https://github.com/LOPES-HUFS/Korea_Stocks_for_HDF5) 소개글에서 언급한 것과 같이 이번에는 HDF5 형식에 대한 간략한 소개와 함께 R을 사용해 HDF5 파일을 만드는 튜토리얼을 소개하겠습니다. 간단한 튜토리얼에 이어서 전체 주식 종목을 하나의 HDF5 파일로 만들면서 HDF5 파일이 가지는 가장 큰 장점인 압축하는 기능에 대해서 알아볼 것입니다. 그럼 본격적으로 들어가기에 앞서서 HDF5 파일 형식이 무엇인지부터 알아보겠습니다.
@@ -55,7 +55,7 @@ h5createGroup("sample.h5","KOSPI")
 h5write(as.matrix(stock_005930), file="sample.h5",name="KOSPI/kor_005930")
 
 # 데이터 셋으로 바로 저장하는 방식
-h5write(c("Date","Open","High","Low","Close","Volume","Adj_Close"), file="sample.h5",name="colnames")
+h5write(colnames(stock_005930), file="sample.h5",name="colnames")
 
 ```
 
@@ -77,8 +77,7 @@ h5ls(sample)
 ```
 samsung_sample <- data.frame(sample$KOSPI$kor_005930)
 colnames(samsung_sample) <- sample$colnames
-samsung_sample$Date <- paste(substr(samsung_sample$Date,1,4),"-",substr(samsung_sample$Date,5,6),"-",substr(samsung_sample$Date,7,8),sep = "")
-
+stock_005930$Date<-as.integer(gsub("-","",stock_005930$Date))
 # HDF5 파일을 닫기
 h5closeAll()
 ```
@@ -95,9 +94,9 @@ h5createFile("all_stock.h5")
 create_h5_file <- function(stocknumber){
     file_path <- paste("./stocks",stocknumber,sep="")
     stock_temp <- read.csv(file = file_path, header = TRUE, stringsAsFactors=FALSE)
-    stock_temp$Date <- as.integer(paste(substr(stock_temp$Date,1,4),substr(stock_temp$Date,6,7),substr(stock_temp$Date,9,10),sep = ""))
+    stock_temp$Date <- as.integer(gsub("-","",stock_temp$Date))
     data_name <- paste("kor_",stocknumber,sep = "")
-    h5createDataset("all_stock.h5", data_name, c(NROW(stock_temp),7),storage.mode = "integer",level=9)
+    h5createDataset("all_stock.h5", data_name, dim(stock_temp),storage.mode = "integer",level=9)
     h5write(as.matrix(stock_temp), file="all_stock.h5",name=data_name)
   }
 
