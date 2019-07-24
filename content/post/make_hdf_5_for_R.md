@@ -1,5 +1,5 @@
 ---
-title: "R을 사용해 HDF5 파일로 만들고 데이터 관리하기"
+title: "R을 사용해 HDF5 파일로 만들고 데이터 압축하기"
 date: 2019-07-17T17:21:17+09:00
 draft: False
 categories: ["R", "Data Analysis"]
