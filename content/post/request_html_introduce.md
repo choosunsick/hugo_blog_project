@@ -32,6 +32,8 @@ temp_url = 'https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx?gameDate
 temp = requests.get(temp_url)
 soup = BeautifulSoup(temp.text, 'lxml')
 soup.find_all('table')
+
+[]
 ```
 
 위 코드의 결과와 같이 Requests를 사용했을 때는 결과가 아무런 값도 없는 빈 리스트임을 확인할 수 있습니다. 만약에 입력한 주소의 자료를 가져왔다면 해당 주소의 리뷰 페이지에 있는 첫 번째 테이블인 스코어보드에 대한 정보가 보여야 합니다. 보시다싶이 Request 패키지로는 자료를 가져오는 데 실패했습니다만, 셀레니움과 크롬드라이버를 설치해서 이용하면 자료를 가져올 수 있습니다. 그러나 셀레니움과 크롬드라이버를 사용하기 전에 Request_html 패키지를 사용해서 정보를 가져와 봅시다.
@@ -44,6 +46,19 @@ r = session.get(temp_url)
 r.html.render()
 soup = BeautifulSoup(r.html.html, "lxml")
 soup.find_all('table')[0]
+
+<table class="tbl" id="tblScordboard1">
+<colgroup>
+<col width="35%"/>
+<col width="65%"/>
+</colgroup>
+<thead>
+<tr>
+<th> </th>
+<th>TEAM</th>
+</tr>
+</thead>
+<tbody><tr><td class="lose">패</td><th><span class="logo"><img alt="" src="//crdfcowjurxm984864.cdn.ntruss.com/resources/images/emblem/regular/2018/initial_HT.png"/></span>0승 1패 0무</th></tr><tr><td class="win">승</td><th><span class="logo"><img alt="" src="//crdfcowjurxm984864.cdn.ntruss.com/resources/images/emblem/regular/2018/initial_OB.png"/></span>1승 0패 0무</th></tr></tbody></table>
 ```
 
 먼저 `HTMLSession()` 코드로 세션을 열어줍니다. 이 작업은 마치 셀레니움과 크롬드라이버를 사용할 때 크롬드라이버의 위치를 선택해 잡아주는 것이랑 똑같은 것입니다. 이어서 `session.get()`은 셀레니움과 크롬드라이버에서 `driver.get()`의 역할과 같습니다. 가장 중요한 자바스크립트로 구성된 페이지를 푸는 것은 `r.html.render()` 코드로 이루어집니다. 참고로 render 기능을 처음 사용할 때에는 자신의 홈 디렉토리에 pyppeteer와 같은 Chromium을 설치해주어야 합니다. 마지막 코드 결과를 보면 셀레니움과 크롬드라이버가 없이도 리뷰 페이지의 테이블 내용이 가져와 진것을 확인할 수 있습니다.
