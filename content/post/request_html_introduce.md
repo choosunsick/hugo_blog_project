@@ -22,17 +22,16 @@ pip install lxml
 패키지 설치가 끝나면 파이썬을 실행하여 패키지들을 import 해줍니다.
 
 ```
-import requests
-from requests_html import HTMLSession
-from bs4 import BeautifulSoup
-import lxml
+>>> import requests
+>>> from requests_html import HTMLSession
+>>> from bs4 import BeautifulSoup
+>>> import lxml
 
-temp_url = 'https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx?gameDate=20100327&gameId=20100327HTOB0&section=REVIEW'
+>>> temp_url = 'https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx?gameDate=20100327&gameId=20100327HTOB0&section=REVIEW'
 
-temp = requests.get(temp_url)
-soup = BeautifulSoup(temp.text, 'lxml')
-soup.find_all('table')
-
+>>> temp = requests.get(temp_url)
+>>> soup = BeautifulSoup(temp.text, 'lxml')
+>>> soup.find_all('table')
 []
 ```
 
@@ -41,12 +40,11 @@ soup.find_all('table')
 ## Requset_html 패키지를 통해 자료 가져오기
 
 ```
-session = HTMLSession()
-r = session.get(temp_url)
-r.html.render()
-soup = BeautifulSoup(r.html.html, "lxml")
-soup.find_all('table')[0]
-
+>>> session = HTMLSession()
+>>> r = session.get(temp_url)
+>>> r.html.render()
+>>> soup = BeautifulSoup(r.html.html, "lxml")
+>>> soup.find_all('table')[0]
 <table class="tbl" id="tblScordboard1">
 <colgroup>
 <col width="35%"/>
