@@ -31,7 +31,7 @@ categories: ["R", "Data Analysis"]
 
 ```
 #파일을 읽어옵니다.
-kbo_total<-read.csv("kBO_light.csv",header = TRUE,stringsAsFactors = FALSE)
+kbo_total<-read.csv("KBO_light.csv",header = TRUE,stringsAsFactors = FALSE)
 
 #읽어온 파일을 확인합니다.
 head(kbo_total)
