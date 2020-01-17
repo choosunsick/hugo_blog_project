@@ -1,8 +1,8 @@
 ---
-title: "R_programming_grammar"
+title: "R 초심자를 위한 간단한 사용법 2"
 date: 2020-01-17T17:43:41+09:00
 draft: FALSE
-tags: ["R로 딥러닝하기", "1번", "기초", "R 초심자를 위한 간단한 사용법 2"]
+tags: ["R로 딥러닝하기", "1번", "기초"]
 categories: ["R"]
 ---
 
