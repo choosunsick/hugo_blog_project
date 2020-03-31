@@ -12,9 +12,9 @@ categories: ["R"]
 
 계산그래프의 역전파가 어떤 구조로 구성되는지 알아봅시다. 먼저 자주 사용되는 덧셈과 곱셈노드의 역전파 구조와 계산방법을 파악해 봅시다. 첫 번째로 덧셈노드의 역전파입니다. 덧셈노드의 역전파는 흘러온 신호를 그대로 출력하는 역할을 합니다.
 
-예를 들어보면, $$z = x+y$$일 때 이것의 역전파는 x에 대한 z의 미분과 y에 대한 z의 미분 값이 x와y 두 가지로 전파 됩니다. 먼저 역전파에서 최초의 입력값 1이 출력되어 덧셈노드로 출력됩니다. 이후 각각의 미분 값은 1로 이 값을 곱하여 각 방향으로 그대로 출력하게 됩니다. 따라서 덧셈노드의 역전파는 항등함수와 같이 입력신호를 그대로 출력하여 다음 노드로 전달합니다.
+예를 들어보면, $z = x+y$일 때 이것의 역전파는 x에 대한 z의 미분과 y에 대한 z의 미분 값이 x와y 두 가지로 전파 됩니다. 먼저 역전파에서 최초의 입력값 1이 출력되어 덧셈노드로 출력됩니다. 이후 각각의 미분 값은 1로 이 값을 곱하여 각 방향으로 그대로 출력하게 됩니다. 따라서 덧셈노드의 역전파는 항등함수와 같이 입력신호를 그대로 출력하여 다음 노드로 전달합니다.
 
-두 번째로 곱셈노드의 역전파는 입력신호에 순전파 때 값을 서로 바꿔서 곱해주는 방식입니다. 예를 들면 $$z = xy$$라 하고 $$x=10$$ $$y=5$$이면 x에 대한 z의 미분은 5가됩니다. y에 대한 z의 미분 값은 10이됩니다. 만약 이전의 노드에서 1.3이라는 값이 출력되었다면, x값이 전파된 쪽에는 $$1.3*5=6.5$$가 되며, y값이 전파된 쪽에는 $$1.3*10=13$$이 됩니다.
+두 번째로 곱셈노드의 역전파는 입력신호에 순전파 때 값을 서로 바꿔서 곱해주는 방식입니다. 예를 들면 $z = xy$라 하고 $x=10$ $y=5$이면 x에 대한 z의 미분은 5가됩니다. y에 대한 z의 미분 값은 10이됩니다. 만약 이전의 노드에서 1.3이라는 값이 출력되었다면, x값이 전파된 쪽에는 $1.3*5=6.5$가 되며, y값이 전파된 쪽에는 $1.3*10=13$이 됩니다.
 
 두 역전파 구조에서 최초 입력값이 모두 1이라는 점부터 살펴봅시다. 역전파의 최초 입력 신호는 왜 1로 주어지는 것일까요? 그 이유는 값의 변화가 있다고 가정하기 때문입니다. 단순히 수식으로 살펴보면 z에 대한 z의 미분 값으로 1이 나옵니다. 그러나 그 의미는 구하고자하는 변화량이 있다고 가정하는 것으로 나타낼 수 있습니다.
 
@@ -69,73 +69,126 @@ tax <- 1.1
 
 mul_apple_layer.forward <- MulLayer.forward(apple, apple_num)
 mul_apple_layer.forward
+$x
+[1] 100
+
+$y
+[1] 2
+
+$out
+[1] 200
 
 apple_price <- mul_apple_layer.forward$out
 apple_price
+[1] 200
 
 mul_orange_layer.forward <- MulLayer.forward(orange, orange_num)
 mul_orange_layer.forward
+$x
+[1] 150
+
+$y
+[1] 3
+
+$out
+[1] 450
+
 
 orange_price <- mul_orange_layer.forward$out
 orange_price
-
+[1] 450
 ```
 
-전체 사과의 가격은 사과의 구매 개수에 사과의 개당 가격을 곱한 것입니다. 오렌지도 마찬가지 방식으로 계산해줍니다. 사과는 개당 100원에 2개를 샀으니 $$100*2=200원$$이 되고, 오렌지는 개당 150원에 3개를 샀으니 $$150*3=450$$원이 됩니다. 
+전체 사과의 가격은 사과의 구매 개수에 사과의 개당 가격을 곱한 것입니다. 오렌지도 마찬가지 방식으로 계산해줍니다. 사과는 개당 100원에 2개를 샀으니 $100*2=200원$이 되고, 오렌지는 개당 150원에 3개를 샀으니 $150*3=450$원이 됩니다.
 
 ```{r}
 add_apple_orange_layer.forward <- AddLayer.forward(apple_price, orange_price)
 add_apple_orange_layer.forward
+$out
+[1] 650
 
 all_price <- add_apple_orange_layer.forward$out
 all_price
+[1] 650
 
 mul_tax_layer.forward <- MulLayer.forward(all_price, tax)
 mul_tax_layer.forward
+$x
+[1] 650
+
+$y
+[1] 1.1
+
+$out
+[1] 715
 
 price <- mul_tax_layer.forward$out
 price
+[1] 715
 ```
 
-전체 가격은 $$200+450=650원$$으로 그 가격에 세금 10%를 곱하면 구할 수 있습니다. 이제 650원에 소비세 10%를 곱해주면 $$650+650*0.1=715원$$이 됩니다.  
+전체 가격은 $200+450=650원$으로 그 가격에 세금 10%를 곱하면 구할 수 있습니다. 이제 650원에 소비세 10%를 곱해주면 $650+650*0.1=715원$이 됩니다.  
 
 이제 사과나 오렌지의 개수나 개당 가격 혹은 소비세가 변화할 때 전체 가격이 어떻게 변화할지를 알아봅시다. 먼저 소비세가 변화할 때 전체 가격의 변화를 살펴봅시다.
 
 ```{r}
 dprice <- 1
 
-tax.backward<- MulLayer.backward(mul_tax_layer.forward, dprice)
+tax.backward <- MulLayer.backward(mul_tax_layer.forward, dprice)
 tax.backward
+$dx
+[1] 1.1
+
+$dy
+[1] 650
 
 dall_price <- tax.backward$dx
 dall_price
+[1] 1.1
 
 dtax <- tax.backward$dy
 dtax
+[1] 650
 ```
 
-`dall_price`, `dtax`두 개의 출력값을 찾을 수 있는데 이것 중 소비세의 변화에 따른 전체 가격의 변화는 `dtax` 값을 의미합니다. 즉 소비세 1(100%) 오르면 전체 가격은 650원 올라갑니다. 실제로 1이 오르면 $$650*2.1=1365$$로 기존 715원에서 650원 오른 1365원인 것을 확인할 수 있습니다. 참고로 소비세의 경우 %이기 때문에 1값이 오르면, 100%가 상승한 것으로 봐야합니다. 이제 `dall_price`의 행방을 살펴보면 이 값은 1.1로 다음 덧셈노드의 입력신호가 됩니다.
+`dall_price`, `dtax`두 개의 출력값을 찾을 수 있는데 이것 중 소비세의 변화에 따른 전체 가격의 변화는 `dtax` 값을 의미합니다. 즉 소비세 1(100%) 오르면 전체 가격은 650원 올라갑니다. 실제로 1이 오르면 $650*2.1=1365$로 기존 715원에서 650원 오른 1365원인 것을 확인할 수 있습니다. 참고로 소비세의 경우 %이기 때문에 1값이 오르면, 100%가 상승한 것으로 봐야합니다. 이제 `dall_price`의 행방을 살펴보면 이 값은 1.1로 다음 덧셈노드의 입력신호가 됩니다.
 
 ```{r}
 add_apple_orange_layer.backward <- AddLayer.backward(dall_price)
 add_apple_orange_layer.backward
+$dx
+[1] 1.1
+
+$dy
+[1] 1.1
 
 dapple_price <- add_apple_orange_layer.backward$dx
 dapple_price
+[1] 1.1
 
 dorange_price <- add_apple_orange_layer.backward$dy
 dorange_price
+[1] 1.1
 ```
 
 덧셈노드의 역전파는 입력값을 그대로 출력합니다. 따라서 사과와 오렌지의 가격을 계산한 곱셈노드에 1.1을 입력신호로 받게 됩니다. 이제 사과의 가격이나 개수가 변화할 때 전체 가격의 변화를 살펴봅시다.
 
 ```{r}
-apple.backward<- MulLayer.backward(mul_apple_layer.forward, dapple_price)
+apple.backward <- MulLayer.backward(mul_apple_layer.forward, dapple_price)
 apple.backward
+$dx
+[1] 2.2
+
+$dy
+[1] 110
+
 dapple <- apple.backward$dx
 dapple
+[1] 2.2
+
 dapple_num <- apple.backward$dy
 dapple_num
+[1] 110
 ```
 
 사과의 전체 가격은 사과의 개수와 개당 가격으로 이루어지는데, 사과의 개수가 변화할 때 전체 가격의 변화를 살펴보겠습니다. 이 문제에서 곱셈노드의 역전파는 순전파에서 사과의 가격인 100에 1.1을 곱한 값인 110이 출력됩니다. 즉 사과의 개수가 1개 늘어나면 전체 가격은 110원 만큼 증가한다는 의미입니다.
@@ -144,14 +197,26 @@ dapple_num
 
 ```{r}
 
-orange.backward<- MulLayer.backward(mul_orange_layer.forward, dorange_price)
+orange.backward <- MulLayer.backward(mul_orange_layer.forward, dorange_price)
+orange.backward
+$dx
+[1] 3.3
+
+$dy
+[1] 165
 
 dorange <- orange.backward$dx
+dorange
+[1] 3.3
+
 dorange_num <- orange.backward$dy
+dorange_num
+[1] 165
 
 c(dapple_num, dapple, dorange_num, dorange, dtax)
+[1] 110.0   2.2 165.0   3.3 650.0
 ```
 
-마찬가지로 오렌지에 대해서 살펴봅시다. 역전파 입력신호로는 1.1이 입력됩니다. 순전파에서 입력된 오렌지의 개당 가격과 개수를 서로 바꿔서 곱해주면 개당 가격이 입력되는 쪽에 개수 3개를 곱한 3.3이 출력됩니다. 반대로 개수가 입력되는 쪽에는 $$150*1.1= 165$$가 출력됩니다.
+마찬가지로 오렌지에 대해서 살펴봅시다. 역전파 입력신호로는 1.1이 입력됩니다. 순전파에서 입력된 오렌지의 개당 가격과 개수를 서로 바꿔서 곱해주면 개당 가격이 입력되는 쪽에 개수 3개를 곱한 3.3이 출력됩니다. 반대로 개수가 입력되는 쪽에는 $150*1.1= 165$가 출력됩니다.
 
 최종적으로 각 변화량에 대해 정리하자면 다음과 같습니다. 먼저 사과의 경우 사과를 1개 더 살 때마다 전체 가격은 110원 올라가며, 사과 가격이 1원 오르면, 전체 가격은 2.2원 올라간다는 의미입니다. 오렌지의 경우는 오렌지를 1개 더 살 때마다 전체 가격은 165원 올라가며, 오렌지 가격이 1원 오르면 전체 가격은 3.3원이 올라간다는 의미입니다.
