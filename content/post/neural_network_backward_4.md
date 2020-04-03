@@ -2,6 +2,7 @@
 title: "오차역전파법을 적용한 2층 신경망 구현하기"
 date: 2020-03-30T22:07:37+09:00
 draft: FALSE
+mathjax: TRUE
 tags: ["R로 딥러닝하기", "신경망", "역전파"]
 categories: ["R"]
 ---
