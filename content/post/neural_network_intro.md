@@ -1,5 +1,5 @@
 ---
-title: "신경망 소개"
+title: "Chapter3 신경망"
 date: 2020-03-16T19:32:28+09:00
 draft: FALSE
 tags: ["R로 딥러닝하기", "신경망"]

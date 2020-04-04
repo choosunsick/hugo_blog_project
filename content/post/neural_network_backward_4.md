@@ -1,5 +1,5 @@
 ---
-title: "오차역전파법을 적용한 2층 신경망 구현하기"
+title: "Chapter5 오차역전파법을 적용하기"
 date: 2020-03-30T22:07:37+09:00
 draft: FALSE
 mathjax: TRUE

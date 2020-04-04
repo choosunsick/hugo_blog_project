@@ -1,5 +1,5 @@
 ---
-title: "역전파와 간단한 계산문제"
+title: "Chapter5 역전파와 간단한 계산문제"
 date: 2020-03-30T22:07:33+09:00
 draft: FALSE
 mathjax: TRUE

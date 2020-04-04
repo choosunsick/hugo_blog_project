@@ -1,5 +1,5 @@
 ---
-title: "다양한 역전파 계층 구현하기"
+title: "Chapter5 다양한 역전파 계층"
 date: 2020-03-30T22:07:35+09:00
 draft: FALSE
 mathjax: TRUE
