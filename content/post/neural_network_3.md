@@ -17,13 +17,13 @@ categories: ["R"]
 ```{r}
 library(dslabs)
 
-MNIST <- read_MNIST()
-str(MNIST)
+mnist <- read_mnist()
+str(mnist)
 
-x_train <- MNIST$train$images
-t_train <- MNIST$train$labels
-x_test <- MNIST$test$images
-t_test <- MNIST$test$labels
+x_train <- mnist$train$images
+t_train <- mnist$train$labels
+x_test <- mnist$test$images
+t_test <- mnist$test$labels
 
 x_train_normalize <- x_train/255
 x_test_normalize <- x_test/255

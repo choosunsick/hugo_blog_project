@@ -105,6 +105,8 @@ gradient <- function(x, t) {
 ```{r}
 library(dslabs)
 source("./DeepLearningFromForR/utils.R")
+source("./DeepLearningFromForR/numerical_gradient.R")
+
 mnist_data <- get_data()
 
 making_one_hot_label <- function(t_label,nrow,ncol){
