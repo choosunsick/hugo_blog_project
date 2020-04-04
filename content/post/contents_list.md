@@ -41,5 +41,5 @@ R 사용에 익숙하신 분들은 1번글부터 보시면 됩니다. R 사용�
 ### R 초심자를 위한 기초 사용법
 
   - [R 설치](https://choosunsick.github.io/post/r_install/)
-  - [기초1](https://choosunsick.github.io/post/r_structure/)
-  - [기초2](https://choosunsick.github.io/post/r_programming_grammar/)
+  - [자료형 살펴보기](https://choosunsick.github.io/post/r_structure/)
+  - [기초 문법 살펴보기](https://choosunsick.github.io/post/r_programming_grammar/)
