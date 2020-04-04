@@ -1,5 +1,5 @@
 ---
-title: "Chapter3 활성화 함수"
+title: "Chapter2 활성화 함수"
 date: 2020-03-16T19:34:03+09:00
 draft: FALSE
 tags: ["R로 딥러닝하기", "신경망", "활성화 함수"]

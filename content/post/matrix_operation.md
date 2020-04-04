@@ -1,5 +1,5 @@
 ---
-title: "Chpater2 행렬의 연산"
+title: "Chpater1 행렬의 연산"
 date: 2020-02-08T20:21:45+09:00
 draft: FALSE
 tags: ["R로 딥러닝하기", "기초", "행렬", "행렬연산"]

@@ -1,5 +1,5 @@
 ---
-title: "Chapter4 2층 신경망 구현"
+title: "Chapter3 2층 신경망 구현"
 date: 2020-03-14T22:14:14+09:00
 draft: False
 tags: ["R로 딥러닝하기", "신경망", "순전파", "기울기", "모델 구현"]
@@ -123,6 +123,9 @@ cross_entropy_error
 이제 신경망 모델의 계산을 담당하는 함수들을 구현해 봅시다.
 
 ```{r}
+source("./DeepLearningFromForR/functions.R")
+source("./DeepLearningFromForR/numerical_gradient.R")
+
 model.forward <- function(x){
     z1 <- sigmoid(sweep((x %*% W1),2, b1,'+'))
     return(softmax(sweep((z1 %*% W2),2, b2,'+')))
@@ -130,13 +133,6 @@ model.forward <- function(x){
 
 loss <-function(x,t){
     return(cross_entropy_error(model.forward(x),t))
-}
-
-model.evaluate <- function(x,t){
-    y <- max.col(model.forward(x))
-    t <- max.col(t)
-    accuracy <- (sum(ifelse(y==t,1,0))) / dim(x)[1]
-    return(accuracy)
 }
 
 numerical_gradient_W1 <- function(f,x,t){
@@ -166,9 +162,9 @@ numerical_gradient <- function(f,x,t) {
 
 순전파를 구현한 `model.forward` 함수에는 `sigmoid` 함수와 `softmax` 함수가 포함되어 있기에 따로 호출할 필요는 없습니다. `model.forward` 함수는 복잡해 보이지만, 이 함수는 데이터를 입력받아 모델의 분류 기준에 대한 추정 값을 출력하는 역할을 합니다.
 
-물론 모델의 실질적인 계산은 loss 함수에서 이루어지는데, 이 함수에서 `model.forward` 함수와 `cross_entropy_error` 함수가 적용됩니다. `model.evaluate` 함수는 모델이 분류한 결과를 판단하는 함수입니다. 이 함수는 학습과정 이후에 사용됩니다.
+물론 모델의 실질적인 계산은 loss 함수에서 이루어지는데, 이 함수에서 `model.forward` 함수와 `cross_entropy_error` 함수가 적용됩니다.
 
-numerical_gradient 함수는 W1~b2까지 4가지가 있습니다. 이 함수들은 모두 구조는 같고, 기울기를 구하는 객체만 다른 함수들입니다. 기울기를 구하는 방법은 다음과 같이 진행됩니다.
+numerical_gradient 함수는 W1~b2까지 4가지가 있습니다. 이 함수들은 모두 구조는 같고, 기울기를 구하는 객체만 다른 함수들입니다. 함수는 대표적으로 W1만 새로 구현했습니다만, 전체 함수는 `source()` 함수를 통해 불러오기 때문에 작동에는 이상이 없습니다. 기울기를 구하는 방법은 다음과 같이 진행됩니다.
 
 ```{r}
 W1[i] <<- (W1[i] + h)
@@ -223,7 +219,7 @@ init$losslist
 1 에폭을 돌렸을 때 가중치와 편향 값을 불러오면, 정확도 성능이 약 78% 정도인 것을 확인할 수 있습니다. 또한 손실 함수 값이 점차적으로 하향하는 그래프를 다음과 같이 그려볼 수 있습니다.
 
 ```{r}
-accuracy(x_test_normalize,t_test_onehotlabel)
+model.evaluate(x_test_normalize,t_test_onehotlabel)
 ```
 
 다음은 역전파 알고리즘을 이용해 학습 과정을 약 1000배 정도 시간을 줄이고 성능도 더 많이 좋아지는 모델을 만들어 볼 것입니다.  

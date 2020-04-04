@@ -1,5 +1,5 @@
 ---
-title: "Chapter3 신경망 연습"
+title: "Chapter2 신경망 연습"
 date: 2020-03-16T19:35:04+09:00
 draft: FALSE
 tags: ["R로 딥러닝하기", "신경망", "소프트맥스", "3층 신경망 구현"]
@@ -57,24 +57,8 @@ t_test_onehotlabel <- making_one_hot_label(t_test,10000,10)
 이제 모델을 준비할 차례입니다. 참고로 손글씨 데이터의 각층의 노드 개수는 입력층은 이미지의 크기에 따라 784개이고, 첫 번째 은닉층의 경우 50개, 두 번째 은닉층의 경우 100개, 출력층은 10개로 설정됩니다. 두 은닉층의 노드 개수 설정은 임의로 정한 값입니다. 모델은 손글씨 인식과 분류에 사용할 모델의 초기값 설정과 항등함수 대신 소프트맥스 함수를 사용하는 것  외에 기존의 3층 신경망과 똑같습니다.  
 
 ```{r}
-sigmoid <- function(x){
-  return(1 / (1 + exp(-x)))
-}
-
-softmax <- function(a){
-  exp_a <- exp(a -  max(a))
-  return(exp_a / sum(exp_a))
-}
-
-model.forward <- function(model, x){
-  a1 <- sweep(x %*% model$W1,2,model$b1,"+")
-  z1 <- sigmoid(a1)
-  a2 <- sweep(z1 %*% model$W2,2,model$b2,"+")
-  z2 <- sigmoid(a2)
-  a3 <- sweep(z2 %*% model$W3,2,model$b3,"+")
-  return(softmax(a3))
-}
-
+source("./DeepLearningFromForR/functions.R")
+source("./DeepLearningFromForR/chapter_2_3.R")
 ```
 
 이제 초기값을 불러와 보겠습니다. 초기값을 불러오는 방식은 hdf5 형식을 이용하거나 json 파일 형식을 이용하는 방식 등 여러가지가 있습니다. 이 글에서는 최근 자주 사용되는 hdf5 형식으로 저장된 데이터를 R로 읽어와 가중치와 편향 행렬을 객체로 저장해보겠습니다. 참고로 hdf5 형식은 데이터를 계층적으로 저장하는 형식입니다. 이 형식에 대해 더 자세히 알고 싶은 분들은 링크(https://www.hdfgroup.org/solutions/hdf5/)를 참조해주시기 바랍니다.

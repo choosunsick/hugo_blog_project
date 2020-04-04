@@ -1,5 +1,5 @@
 ---
-title: "Chpater2 벡터의 연산"
+title: "Chpater1 벡터의 연산"
 date: 2020-02-08T20:21:30+09:00
 draft: FALSE
 tags: ["R로 딥러닝하기", "기초", "벡터", "벡터연산"]

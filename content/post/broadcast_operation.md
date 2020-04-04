@@ -1,5 +1,5 @@
 ---
-title: "Chpater2 브로드캐스트 연산"
+title: "Chpater1 브로드캐스트 연산"
 date: 2020-02-08T20:22:00+09:00
 draft: FALSE
 tags: ["R로 딥러닝하기", "기초", "브로드캐스트"]

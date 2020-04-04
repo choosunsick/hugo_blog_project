@@ -1,5 +1,5 @@
 ---
-title: "Chapter3 3층 신경망 구현"
+title: "Chapter2 3층 신경망 구현"
 date: 2020-03-16T19:34:26+09:00
 draft: FALSE
 tags: ["R로 딥러닝하기", "신경망", "소프트맥스", "3층 신경망 구현"]
@@ -65,13 +65,8 @@ softmax(1000)
 3층 신경망의 구조를 떠올리고 나면 신호의 전달이 다음과 같이 진행됨을 알 수 있습니다. 입력층-은닉층(W1,b1), 은닉층-은닉층(W2,b2), 은닉층-출력층(W3,b3)으로 3개의 신호 전달이 있습니다. 3개의 신호 전달됨에 따라 초기값 역시 3개의 가중치와 편향이 필요합니다. 또한, 신호 전달 과정을 구현함에 있어 활성화 함수로서 시그모이드 함수와 출력층에서 결과를 출력하기 위한 항등함수가 사용됩니다. 이제 신호 전달과정을 나타낸 함수와 초기값을 만드는 함수 2가지를 구현해보겠습니다.
 
 ```{r}
-identify_fun <- function(x){
-  return(x)
-}
-
-sigmoid <- function(x){
-  return(1 / (1 + exp(-x)))
-}
+source("./DeepLearningFromForR/functions.R")
+source("./DeepLearningFromForR/numerical_gradient.R")
 
 init <- function(){
   W1 <- matrix(seq(0.1,0.6,0.1), nrow = 2, ncol = 3)

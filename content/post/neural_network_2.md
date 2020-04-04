@@ -1,5 +1,5 @@
 ---
-title: "Chapter4 손실함수"
+title: "Chapter3 손실함수"
 date: 2020-03-14T22:13:44+09:00
 draft: False
 tags: ["R로 딥러닝하기", "신경망", "순전파", "손실 함수"]
