@@ -7,6 +7,8 @@ tags: ["R로 딥러닝하기", "신경망", "역전파"]
 categories: ["R"]
 ---
 
+이 시리즈는 R로 딥러닝을 구현하고 설명하는 것에 목표를 둔 글입니다. 신경망 챕터에 이어서 3번째 순서입니다. [이전 글](https://choosunsick.github.io/post/neural_network_backward_2/)과 내용이 이어집니다. 이전 글들은 [이곳](https://choosunsick.github.io/post/contents_list/)에서 찾아 보실 수 있습니다.
+
 ## 각 계층 구현하기
 
 이번에는 신경망 모델에서 역전파를 하기 위해 필요한 함수들 예를 들어 `softmax()`와 `loss()`, `sigmoid()`, `ReLU()` 기존 순전파 계산 `model.forward()`의 역전파 등을 구현해 보겠습니다.

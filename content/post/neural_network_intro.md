@@ -6,6 +6,8 @@ tags: ["R로 딥러닝하기", "신경망"]
 categories: ["R"]
 ---
 
+이 시리즈는 R로 딥러닝을 구현하고 설명하는 것에 목표를 둔 글입니다. [이전 글](https://choosunsick.github.io/post/broadcast_operation/)에서 벡터와 행렬연산, 브로드캐스트 연산 등에 이어서 2번째 순서입니다. 이전 글들은 [이곳](https://choosunsick.github.io/post/contents_list/)에서 찾아 보실 수 있습니다.
+
 # 소개
 
 이번 글에서는 인공지능 분야에서 가장 기초가 되는 신경망이 무엇인지 알아보고 그것에 요소들과 신경망을 R로 구현해 손글씨 인식 및 분류 모델을 만들어 보겠습니다.  
