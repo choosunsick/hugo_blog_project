@@ -1,9 +1,9 @@
 ---
-title: 'Chapter1 R 초심자를 위한 간단한 사용법 1'
+title: 'R 자료형 살펴보기'
 date: 2020-01-17T17:42:53+09:00
 draft: FALSE
 tags: ["R로 딥러닝하기", "기초", "R 자료형"]
-categories: ["R"]
+categories: ["R","R 초심자를 위한 간단한 사용법"]
 ---
 
 # 소개

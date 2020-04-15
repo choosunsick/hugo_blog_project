@@ -1,9 +1,9 @@
 ---
-title: "Chapter1 R 초심자를 위한 간단한 사용법 2"
+title: "R 프로그래밍 대표 문법 살펴보기"
 date: 2020-01-17T17:43:41+09:00
 draft: FALSE
 tags: ["R로 딥러닝하기", "기초", "R 문법"]
-categories: ["R"]
+categories: ["R", "R 초심자를 위한 간단한 사용법"]
 ---
 
 ## 1.2 R 사용시 필요한 대표적인 기초 문법   

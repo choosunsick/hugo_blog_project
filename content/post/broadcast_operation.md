@@ -6,7 +6,7 @@ tags: ["R로 딥러닝하기", "기초", "브로드캐스트"]
 categories: ["R"]
 ---
 
-이 시리즈는 R로 딥러닝을 구현하고 설명하는 것에 목표를 둔 글입니다. [이전 글](https://choosunsick.github.io/post/matrix_operation/)에서 내용이 이어집니다. 
+이 시리즈는 R로 딥러닝을 구현하고 설명하는 것에 목표를 둔 글입니다. [이전 글](https://choosunsick.github.io/post/matrix_operation/)에서 내용이 이어집니다.
 
 ## 브로드캐스트란?
 
@@ -23,6 +23,26 @@ b_matrix
 a*b
 a*b_matrix
 all.equal(a*b, a*b_matrix)
+
+> a
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6
+> b_matrix <- matrix(b,2,3)
+> b_matrix
+     [,1] [,2] [,3]
+[1,]    1    1    1
+[2,]    2    2    2
+> a*b
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    4    8   12
+> a*b_matrix
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    4    8   12
+> all.equal(a*b, a*b_matrix)
+[1] TRUE
 ```
 
 오브젝트 b는 1,2 원소를 가진 벡터입니다. 이 벡터를 a 행렬의 크기인 2행 3열로 만든다면, b_matrix와 같이 기본적으로 열방향으로 원소들이 나열되어 행렬이 만들어집니다. 이렇게 만들어진 행렬은 같은 크기의 a 행렬과 연산이 가능합니다. 실제로 기존의 벡터 연산과 결과가 같은 것 또한 확인할 수 있습니다.
@@ -31,7 +51,7 @@ all.equal(a*b, a*b_matrix)
 
 ### rray 패키지 사용해 브로드캐스트 연산하기
 
-rray라는 외부 라이브러리를 사용하면 일반적인 연산과 같이 쉽게 행렬과 벡터 간 연산이 가능합니다. 먼저 패키지를 설치해 줍니다.
+rray라는 외부 라이브러리를 사용하면 일반적인 연산과 같이 쉽게 행렬과 벡터 간 연산이 가능합니다. 먼저 패키지를 설치해 줍니다. 현재 R 3.6.3 버전에서 rray 패키지가 이용이 불가능한 상태입니다. 따라서 R 최신 버전을 사용하시는 분들은 rray 패키지를 사용하는 코드가 작동되지 않는다는 것을 알려드립니다.
 
 ```
 install.packages("rray")
@@ -82,6 +102,59 @@ sweep(x = a,MARGIN = 2,STATS = c_mat,"*")
 a*c==sweep(x = a,MARGIN = 2,STATS = c,"*")
 sweep(x = a,MARGIN = 1,STATS = c,"*")
 a*c==sweep(x = a,MARGIN = 1,STATS = c,"*")
+```
+
+```
+> a
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6
+> b_mat
+     [,1] [,2]
+[1,]    1    2
+> c_mat
+     [,1] [,2] [,3]
+[1,]    1    2    3
+> a*b
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    4    8   12
+> sweep(x = a,MARGIN = 1,STATS = b,"*")
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    4    8   12
+> sweep(x = a,MARGIN = 1,STATS = b_mat,"*")
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    4    8   12
+> a*b==sweep(x = a,MARGIN = 1,STATS = b,"*")
+     [,1] [,2] [,3]
+[1,] TRUE TRUE TRUE
+[2,] TRUE TRUE TRUE
+> a*c
+     [,1] [,2] [,3]
+[1,]    1    9   10
+[2,]    4    4   18
+> sweep(x = a,MARGIN = 2,STATS = c,"*")
+     [,1] [,2] [,3]
+[1,]    1    6   15
+[2,]    2    8   18
+> sweep(x = a,MARGIN = 2,STATS = c_mat,"*")
+     [,1] [,2] [,3]
+[1,]    1    6   15
+[2,]    2    8   18
+> a*c==sweep(x = a,MARGIN = 2,STATS = c,"*")
+      [,1]  [,2]  [,3]
+[1,]  TRUE FALSE FALSE
+[2,] FALSE FALSE  TRUE
+> sweep(x = a,MARGIN = 1,STATS = c,"*")
+STATS is longer than the extent of 'dim(x)[MARGIN]'     [,1] [,2] [,3]
+[1,]    1    9   10
+[2,]    4    4   18
+> a*c==sweep(x = a,MARGIN = 1,STATS = c,"*")
+STATS is longer than the extent of 'dim(x)[MARGIN]'     [,1] [,2] [,3]
+[1,] TRUE TRUE TRUE
+[2,] TRUE TRUE TRUE
 ```
 
 `sweep()` 함수는 행렬과 행렬 혹은 벡터의 연산을 도웁니다. sweep 함수는 행과 열에 대한 원소별 연산과 함께 재활용 규칙도 적용되는 함수 입니다. 이에 따라서 재활용 규칙을 활용한 행렬과 벡터의 연산을 수행할 수 있으며, 행과 열에 대한 원소별 연산 역시 수행할 수 있습니다. 단 그 사용방법이 좀 복잡합니다.

@@ -19,7 +19,14 @@ categories: ["R"]
 library(dslabs)
 
 mnist <- read_mnist()
-str(mnist)
+> str(mnist)
+List of 2
+ $ train:List of 2
+  ..$ images: int [1:60000, 1:784] 0 0 0 0 0 0 0 0 0 0 ...
+  ..$ labels: int [1:60000] 5 0 4 1 9 2 1 3 1 4 ...
+ $ test :List of 2
+  ..$ images: int [1:10000, 1:784] 0 0 0 0 0 0 0 0 0 0 ...
+  ..$ labels: int [1:10000] 7 2 1 0 4 1 4 9 5 9 ...
 ```
 
 데이터를 읽어오면 리스트 내에 훈련 데이터와 테스트 데이터를 확인할 수 있습니다. 훈련 데이터는 60000개의 이미지가 테스트 데이터에는 10000개의 이미지가 행렬로 담겨 있습니다. 이미지가 어떤 숫자인지를 알려주는 정답은 라벨이란 이름으로 있습니다.
@@ -30,8 +37,10 @@ t_train <- mnist$train$labels
 x_test <- mnist$test$images
 t_test <- mnist$test$labels
 
-dim(x_train)
-dim(x_test)
+> dim(x_train)
+[1] 60000   784
+> dim(x_test)
+[1] 10000   784
 ```
 
 훈련데이터와 테스트 데이터를 리스트에서 분리해줍니다. 훈련데이터와 테스트 데이터의 크기를 확인해볼 수 있는데, 이미지의 장수가 행이 되고 이미지의 크기인 28x28=784가 열이 됩니다. 이제 이미지 데이터의 훈련데이터와 테스트 데이터에 대한 정규화를 해줍니다. 정답 라벨의 경우 원핫 인코딩의 형태로 변경해 줍니다. 원핫 인코딩이란 분류할 대상이 맞으면 1 아니면 0으로 체크하는 방식입니다. 손글씨의 경우 0부터 9까지의 10개의 숫자들 중 정답에 해당하는 숫자가 1 아닌 숫자를 0으로 표시하게 됩니다.
@@ -72,7 +81,15 @@ library(rhdf5)
 init <- H5Fopen("./deep_learn_R/Data/sample_weights.h5")
 model <- list(matrix(init$"W1",784,50), matrix(init$"b1",1,50), matrix(init$"W2",50,100), matrix(init$"b2",1,100), matrix(init$"W3",100,10), matrix(init$"b3",1,10))
 names(model) <- c("W1", "b1", "W2", "b2", "W3", "b3")
-str(model)
+
+> str(model)
+List of 6
+ $ W1: num [1:784, 1:50] -0.00741 -0.0103 -0.01309 -0.01001 0.02207 ...
+ $ b1: num [1, 1:50] -0.0675 0.0696 -0.0273 0.0226 -0.22 ...
+ $ W2: num [1:50, 1:100] -0.1069 0.2991 0.0658 0.0939 0.048 ...
+ $ b2: num [1, 1:100] -0.01471 -0.07215 -0.00156 0.122 0.11603 ...
+ $ W3: num [1:100, 1:10] -0.422 -0.524 0.683 0.155 0.505 ...
+ $ b3: num [1, 1:10] -0.06024 0.00933 -0.0136 0.02167 0.01074 ...
 ```
 
 이제 남은 작업은 모델에 데이터를 입력하고 그 성능을 확인하는 일만 남았습니다. 물론 모델의 성능을 알기 위해서는 모델을 검사할 성능 검사기가 필요합니다. 따라서 모델의 분류 결과에 대한 정답과 비교해 정확도를 판단하는 함수가 필요합니다.
@@ -86,6 +103,7 @@ model.evaluate.single <- function(model,x,t){
 }
 
 model.evaluate.single(model,x_test_normalize,t_test_onehotlabel)
+[1] 0.9352
 ```
 
 모델을 검사하는 함수는 `model.evaluate.single` 이란 이름으로 정의하였는데, 함수의 이름에 single이 붙은 이유는 이미지 데이터가 1장씩 계산되어 쌓여나가기 때문입니다. 1장씩 총 10000 장의 이미지가 모델에 입력되어 1장씩 어떤 숫자인지 예측하고 그것을 쌓아 정답 라벨 값과 비교하여 모델의 정확도를 표시합니다. 그러나 이렇게 이미지를 1장씩 입력받아 쌓아나가는게 최선일까요?
@@ -104,10 +122,17 @@ model.evaluate <- function(model,x,t){
   return(accuracy)
 }
 
-model.evaluate(model,x_test_normalize,t_test_onehotlabel)
+> model.evaluate(model,x_test_normalize,t_test_onehotlabel)
+[1] 0.9352
 
-system.time(model.evaluate.single(model,x_test_normalize,t_test_onehotlabel))
-system.time(model.evaluate(model,x_test_normalize,t_test_onehotlabel))
+> system.time(model.evaluate.single(model,x_test_normalize,t_test_onehotlabel))
+   user  system elapsed
+  2.733   0.024   2.763
+  
+> system.time(model.evaluate(model,x_test_normalize,t_test_onehotlabel))
+   user  system elapsed
+  0.427   0.014   0.441
+
 ```
 
 이번 글에서는 신경망 분류모델에 필요한 함수들에 대해 알아보았으며, 직접 3층 신경망을 구현하고, 저자가 준비한 학습된 가중치와 편향을 이용하여 실제로 손글씨 이미지 데이터를 인식하고 분류하여 약 93% 성능을 가진 모델을 만들어 보았습니다. 다음 글에서는 저자가 어떤 방식으로 모델의 성능을 93% 끌어올리는 가중치와 편향을 학습시켰는지 모델의 학습 방법에 대해 알아보겠습니다.

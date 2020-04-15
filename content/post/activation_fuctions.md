@@ -24,7 +24,9 @@ categories: ["R"]
 step_fun <- function(x){
   return(ifelse(x > 0, 1, 0))
 }
-step_fun(c(-1,1,2))
+
+> step_fun(c(-1,1,2))
+[1] 0 1 1
 ```
 
 작성한 함수를 그려보면 다음과 같이 계단 모양이 나옵니다.
@@ -35,9 +37,16 @@ library(ggplot2)
 
 x <- seq(from =  -5, to =  4.9, by =  0.1)
 y <- step_fun(x)
-data<-data.frame(x, y)
-str(data)
+data <- data.frame(x, y)
+
+> str(data)
+'data.frame':	100 obs. of  2 variables:
+ $ x: num  -5 -4.9 -4.8 -4.7 -4.6 -4.5 -4.4 -4.3 -4.2 -4.1 ...
+ $ y: num  0 0 0 0 0 0 0 0 0 0 ...
+
 ggplot(data, aes(x, y))+geom_line()
+
+![계단 함수](https://user-images.githubusercontent.com/19144813/78967067-5efb4080-7b3c-11ea-99ab-ea9c4cb3a1dd.png)
 
 ```
 
@@ -50,8 +59,12 @@ sigmoid <- function(x){
   return(1 / (1 + exp(-x)))
 }
 x <- matrix(c(-1, 1, 2),1,3)
-x
-sigmoid(x)
+> x
+     [,1] [,2] [,3]
+[1,]   -1    1    2
+> sigmoid(x)
+          [,1]      [,2]      [,3]
+[1,] 0.2689414 0.7310586 0.8807971
 ```
 
 시그모이드 함수 그려보면 0에서 1 사이의 연속된 실수 값들이 s자 모양을 이루는 것을 확인할 수 있습니다.
@@ -59,9 +72,16 @@ sigmoid(x)
 ```{r echo=TRUE}
 x <- seq(from =  -5, to =  4.9, by =  0.1)
 y <- sigmoid(x)
-data<-data.frame(x, y)
-str(data)
+data <- data.frame(x, y)
+
+> str(data)
+'data.frame':	100 obs. of  2 variables:
+ $ x: num  -5 -4.9 -4.8 -4.7 -4.6 -4.5 -4.4 -4.3 -4.2 -4.1 ...
+ $ y: num  0.00669 0.00739 0.00816 0.00901 0.00995 ...
+
 ggplot(data, aes(x, y))+geom_line()
+
+![Sigmoid 함수](https://user-images.githubusercontent.com/19144813/78967271-f2cd0c80-7b3c-11ea-9918-5300e40f5299.png)
 ```
 
 시그모이드 함수와 계단함수의 차이는 시그모이드 함수는 연속적인 값이 신호로서 흐르는 반면 계단함수는 오직 2가지 값만 흐른다는 점입니다. 시그뫼드 함수의 연속적인 값들이 함수의 그래프를 s자 모양으로 만들어주며 입력 값에 비례해 출력 값이 커지는 경향성을 찾아 볼 수 있습니다. 물론 공통점을 찾아 볼 수 있습니다. 두 함수 모두 활성화 함수로서 최소 0과  최대 1 이라는 값을 출력합니다. 이 두 함수 모두 비선형 함수라는 점에서 공통점을 찾아 볼 수 있습니다. 비선형 함수란 선형 모양으로 표현할 수 없는 함수로 분수형태의 함수나 2차식 이상의 함수들을 말합니다.
@@ -77,8 +97,14 @@ relu <- function(x){
   return(ifelse(x > 0, x, 0))
 }
 x <- matrix(c(-1, 1, 2),1,3)
-x
-relu(x)
+
+> x
+     [,1] [,2] [,3]
+[1,]   -1    1    2
+
+> relu(x)
+     [,1] [,2] [,3]
+[1,]    0    1    2
 ```
 
 이제 다른 함수들과 마찬가지로 ReLu 함수를 R로 구현하고, 그려보겠습니다.
@@ -87,6 +113,13 @@ relu(x)
 x <- seq(from =  -5, to =  4.9, by = 0.1)
 y <- relu(x)
 data <- data.frame(x, y)
-str(data)
+
+> str(data)
+'data.frame':	100 obs. of  2 variables:
+ $ x: num  -5 -4.9 -4.8 -4.7 -4.6 -4.5 -4.4 -4.3 -4.2 -4.1 ...
+ $ y: num  0 0 0 0 0 0 0 0 0 0 ...
+
 ggplot(data, aes(x, y))+geom_line()
+
+![ReLU 함수](https://user-images.githubusercontent.com/19144813/78967414-6111cf00-7b3d-11ea-9b69-d3aafe8b7db6.png)
 ```

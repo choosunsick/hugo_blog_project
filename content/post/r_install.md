@@ -1,9 +1,9 @@
 ---
-title: 'R 초심자를 위한 R 설치방법과 기초 사용방법'
+title: 'R 설치하기'
 date: 2020-01-17T17:39:27+09:00
 draft: False
 tags: ["기초", "설치", "데이터 타입"]
-categories: ["R"]
+categories: ["R", "R 초심자를 위한 간단한 사용법"]
 ---
 
 ## R 설치 & 실행 방법
