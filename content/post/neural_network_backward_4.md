@@ -28,7 +28,7 @@ TwoLayerNet <- function(input_size, hidden_size, output_size, weight_init_std = 
     return(list(input_size, hidden_size, output_size,weight_init_std))
 }
 
-TwoLayerNet(input_size = 784, hidden_size = 50, output_size = 10)
+> TwoLayerNet(input_size = 784, hidden_size = 50, output_size = 10)
 
 [[1]]
 [1] 784
@@ -162,7 +162,7 @@ W2_diff <- mean(abs(grad_backprop$W2-grad_numerical$W2))
 b2_diff <- mean(abs(grad_backprop$b2-grad_numerical$b2))
 
 temp <- list(W1 = W1_diff, b1 = b1_diff, W2 = W2_diff, b2 = b2_diff)
-temp
+> temp
 
 $W1
 [1] 4.020843e-10

@@ -19,8 +19,11 @@ source("./DeepLearningFromForR/functions.R")
 simplemodel  <- function(){
    W <<- matrix(c(0.47355232, 0.85557411, 0.9977393, 0.03563661,0.84668094,0.69422093), nrow = 2)
 }
-simplemodel()
-W
+> simplemodel()
+> W
+          [,1]       [,2]      [,3]
+[1,] 0.4735523 0.99773930 0.8466809
+[2,] 0.8555741 0.03563661 0.6942209
 
 simplemodel.forward <- function(x) {
   return(x %*% W)
@@ -42,19 +45,29 @@ numerical_gradient_simplemodel <- function(f,x,t){
 }
 
 x <- matrix(c(0.6,0.9),nrow = 1,ncol = 2)
-x
+> x
+     [,1] [,2]
+[1,]  0.6  0.9
 
 p <- simplemodel.forward(x)
-p   
+> p   
+         [,1]      [,2]     [,3]
+[1,] 1.054148 0.6307165 1.132807   
 
 t <- matrix(c(0,0,1),nrow = 1,ncol = 3)
-t
+> t
+     [,1] [,2] [,3]
+[1,]    0    0    1
 
 loss <- function(x,t){cross_entropy_error(softmax(simplemodel.forward (x)),t)}
-loss(x,t)
+> loss(x,t)
+[1] 0.9280683
 
 dw <- numerical_gradient_simplemodel(loss,x,t)
-dw
+> dw
+          [,1]      [,2]      [,3]
+[1,] 0.2192476 0.1435624 -0.362810
+[2,] 0.3288714 0.2153436 -0.544215
 
 ```
 
@@ -73,7 +86,7 @@ R로 전체 학습 과정을 구현하기에 앞서 전체 학습이 어떻게 �
 데이터가 준비되면 각 가중치와 편향 별로 기울기를 구합니다. 기울기가 구해지면 기울기 정보를 토대로 확률적 경사하강법을 사용해 가중치와 편향을 갱신하며 이 과정을 반복합니다. 남은 것은 직접 2층 신경망 분류모델을 R로 구현하고 학습과 훈련을 해보는 일입니다. 먼저 초기 값을 설정하는 함수를 작성합니다.  
 
 ```{r}
-TwoLayerNet  <- function(input_size, hidden_size, output_size, weight_init_std = 0.01) {
+TwoLayerNet <- function(input_size, hidden_size, output_size, weight_init_std = 0.01) {
   W1 <<- weight_init_std*matrix(rnorm(n = input_size*hidden_size), nrow = input_size, ncol = hidden_size)
   b1 <<- matrix(rep(0,hidden_size),nrow=1,ncol=hidden_size)
   W2 <<- weight_init_std*matrix(rnorm(n = hidden_size*output_size), nrow = hidden_size, ncol = output_size)
@@ -88,7 +101,7 @@ init <- TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
 
 마찬가지로 다음층의 행렬 계산을 위해 은닉층의 크기가 첫 번째 가중치 행렬의 열이 됩니다. 두 번째 가중치 행렬도 마찬가지로 만들어지는데 여기서는 2층 신경망이므로 은닉층의 크기와 출력의 개수로 구성됩니다. 이렇게 구성하는 이유 역시 행렬 곱셈을 위해 크기를 맞추어 주는 것입니다. 참고로 은닉층이 2개라면 첫 번째 은닉층의 크기와 두 번째 은닉층의 크기로 구성됩니다.
 
-가중치 행렬의 원소 값은 랜덤한 정규분포 난수로 설정합니다. 초기값의 설정은 이후 모델의 성능을 좌우할만큼 중요하지만 여기서는 난수를 초기값으로 설정한다는 것만 짚고 넘어가겠습니다. 모델 성능에 영향을 줄 수 있는 초기값 설정 방법들은 추후에 설명하겠습니다.   
+가중치 행렬의 원소 값은 랜덤한 정규분포 난수로 설정합니다. 초기값의 설정은 이후 모델의 성능을 좌우할만큼 중요하지만 여기서는 난수를 초기값으로 설정한다는 것만 짚고 넘어가겠습니다. 초기값에 0.01이라는 수를 곱해주는 이유는 초기값을 최대한 작게 만들어 오버피팅을 방지하기 위해서 입니다. 모델 성능에 영향을 줄 수 있는 초기값 설정 방법들은 추후에 설명하겠습니다.   
 
 첫 번째 편향 행렬 크기를 알아보기 전에, 편향은 모든 층에서 항상 1개의 노드만 가진다는 것을 기억해 봅시다. 즉 모든 편향 행렬의 행은 1이라는 말로 바꿀 수 있습니다. 편향 행렬은 가중치와 입력 신호가 곱해진 행렬에 더해지는데 계산을 위해 행렬의 행은 정해져 있으니 편향 행렬의 열을 맞추어 주어야 합니다.
 
@@ -97,14 +110,10 @@ init <- TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
 다음 단계는 훈련데이터와 테스트데이터 셋을 가져옵니다. 이전 글에서 만든 필요한 함수들은 functions, utils 라는 스크립트에 있습니다. 만든 함수를 가져오는 것은 `source()` 함수를 통해 불러올 수 있습니다.
 
 ```{r}
-source("./DeepLearningFromForR/utils.R")
+source("./utils.R")
 library(dslabs)
 
-mnist<-read_mnist()
-x_train<-mnist$train$images
-t_train<-mnist$train$labels
-x_test<-mnist$test$images
-t_test<-mnist$test$labels
+mnist_data <- get_data()
 
 t_train_onehotlabel <- making_one_hot_label(t_train,60000,10)
 t_test_onehotlabel <- making_one_hot_label(t_test,10000,10)
@@ -125,8 +134,8 @@ cross_entropy_error
 이제 신경망 모델의 계산을 담당하는 함수들을 구현해 봅시다.
 
 ```{r}
-source("./DeepLearningFromForR/functions.R")
-source("./DeepLearningFromForR/numerical_gradient.R")
+source("./functions.R")
+source("./numerical_gradient.R")
 
 model.forward <- function(x){
     z1 <- sigmoid(sweep((x %*% W1),2, b1,'+'))
@@ -198,7 +207,6 @@ for(i in 1:iters_num){
   b2 <- b2 - (grads$b2 * learning_rate)
   loss_value <- loss(x, t)
   train_loss_list[i,1] <- loss_value
-  print(i)
 }
 ```
 
@@ -208,20 +216,25 @@ for문 안에 각 가중치와 편향을 갱신하는 과정을 확인할 수 �
 
 ```{r}
 library(rhdf5)
-init <- H5Fopen("./weights_600.h5")
+init <- H5Fopen("./data/TwoLayerNet_forward_1_epoch.h5")
 model <- list(matrix(init$"W1",784,50), matrix(init$"b1",1,50), matrix(init$"W2",50,10), matrix(init$"b2",1,10))
 names(model) <- c("W1", "b1", "W2", "b2")
 W1 <- model$W1
 W2 <- model$W2
 b1 <- model$b1
 b2 <- model$b2
-init$losslist
+
+> str(init$losslist)
+ num [1:600, 1] 2.29 2.3 2.3 2.29 2.29 ...
 ```
 
 1 에폭을 돌렸을 때 가중치와 편향 값을 불러오면, 정확도 성능이 약 78% 정도인 것을 확인할 수 있습니다. 또한 손실 함수 값이 점차적으로 하향하는 그래프를 다음과 같이 그려볼 수 있습니다.
 
 ```{r}
 model.evaluate(x_test_normalize,t_test_onehotlabel)
+
+> model.evaluate(x_test_normalize,t_test_onehotlabel)
+[1] 0.7886
 ```
 
 다음은 역전파 알고리즘을 이용해 학습 과정을 약 1000배 정도 시간을 줄이고 성능도 더 많이 좋아지는 모델을 만들어 볼 것입니다.  

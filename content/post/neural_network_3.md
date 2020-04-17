@@ -14,23 +14,15 @@ categories: ["R"]
 
 그러나 MNIST 데이터 셋의 훈련데이터만 하더라도 6만개의 데이터가 있으며, 빅데이터 수준이 되면 이보다 더 큰 경우도 종종 있습니다. 이렇게 훈련 데이터가 클 경우 전부 사용하여 손실 함수를 계산하면 시간이 오래 걸립니다. 따라서 데이터 중 일부를 추출하여 학습을 진행하는데 이를 미니배치 학습이라 합니다. 이제 직접 MNIST 훈련 데이터에서 100개씩 데이터를 추출하여 미니배치 학습을 위한 교차 엔트로피 오차 함수를 구현해보겠습니다.  
 
-먼저 [이전 글](https://github.com/LOPES-HUFS/DeepLearningFromForR/wiki/4.2) 에서 다음과 같이 MNIST 데이터 셋을 불러와 데이터 정규화와 라벨의 원-핫 인코딩 과정을 진행해 줍니다.
+먼저 [링크](https://choosunsick.github.io/post/mnist/) 에서 다음과 같이 MNIST 데이터 셋을 불러와 데이터 정규화와 라벨의 원-핫 인코딩 과정을 진행해 줍니다. 데이터 셋을 불러오는 과정을 `get_data()`라는 함수로 처리해 데잍터를 불러와 줍니다.
 
 ```{r}
+source("./utils.R")
 library(dslabs)
 
-mnist <- read_mnist()
-str(mnist)
+mnist_data <- get_data()
 
-x_train <- mnist$train$images
-t_train <- mnist$train$labels
-x_test <- mnist$test$images
-t_test <- mnist$test$labels
-
-x_train_normalize <- x_train/255
-x_test_normalize <- x_test/255
-
-making_one_hot_label <-function(t_label,nrow,ncol){
+making_one_hot_label <- function(t_label,nrow,ncol){
     data <- matrix(FALSE,nrow = nrow,ncol = ncol)
     t_index <- t_label+1
     for(i in 1:NROW(data)){
@@ -39,8 +31,12 @@ making_one_hot_label <-function(t_label,nrow,ncol){
     return(data)
 }
 
+x_train_normalize <- x_train/255
+x_test_normalize <- x_test/255
+
 t_train_onehotlabel <- making_one_hot_label(t_train,60000,10)
 t_test_onehotlabel <- making_one_hot_label(t_test,10000,10)
+
 str(x_train_normalize)
 str(t_train_onehotlabel)
 ```
@@ -49,15 +45,20 @@ str(t_train_onehotlabel)
 
 ```{r}
 trainsize <- dim(x_train_normalize/255)[1]
-trainsize
+> trainsize
+[1] 60000
 batch_size <- 10
-batch_size
+> batch_size
+[1] 10
 batch_mask <- sample(trainsize,batch_size)
-batch_mask
+> batch_mask
+ [1]  8299 18763 28706 35366 29752 59755 42776 25722 45897 55425
 x_batch <- x_train_normalize[batch_mask,]
-str(x_batch)
+> str(x_batch)
+ num [1:10, 1:784] 0 0 0 0 0 0 0 0 0 0 ...
 t_batch <- t_train_onehotlabel[batch_mask,]
-str(t_batch)
+> str(t_batch)
+ logi [1:10, 1:10] FALSE FALSE FALSE FALSE FALSE FALSE ...
 ```
 
 이제 교차 엔트로피 오차 함수에 평균 값 계산을 추가해봅시다. 기존의 계산과정에서 달라지는 것은 데이터의 개수로 나누는 과정 말고는 없습니다.
@@ -68,15 +69,23 @@ y2  <- matrix(y <- c(0.1,0.05,0.1,0,0.05,0.1,0,0.6,0,0), nrow = 1)
 t <- matrix(c(0,0,1,0,0,0,0,0,0,0), nrow = 1)
 new_y <- rbind(y1,y2)
 new_t <- rbind(t,t)
-new_y
-new_t
+> new_y
+     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+[1,]  0.1 0.05  0.6    0 0.05  0.1    0  0.1    0     0
+[2,]  0.1 0.05  0.1    0 0.05  0.1    0  0.6    0     0
+> new_t
+     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+[1,]    0    0    1    0    0    0    0    0    0     0
+[2,]    0    0    1    0    0    0    0    0    0     0
 
 cross_entropy_error <- function(y, t){
     batchsize <- dim(y)[1]
     return(-sum(t * log(y + 1e-7))/batchsize)
 }
-cross_entropy_error(y1,t)
-cross_entropy_error(new_y,new_t)
+> cross_entropy_error(y1,t)
+[1] 0.5108255
+> cross_entropy_error(new_y,new_t)
+[1] 1.406705
 ```
 
 평균 교차 엔트로피 오차 함수에 2개의 이미지 데이터를 넣어도 손실 함수의 값이 계산되는 것을 확인할 수 있습니다. 단 이 함수는 정답 라벨이 원-핫 인코딩으로 만들어진 경우만 교차 엔트로피 오차 값을 계산합니다.

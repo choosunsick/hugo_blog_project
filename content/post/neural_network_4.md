@@ -38,9 +38,12 @@ numerical_diff <- function(f,x){
 function_1 <- function(x){
   return(0.01*x^2+0.1*x)
 }
-numerical_diff_t(function_1,5)
-numerical_diff(function_1,5)
-numerical_diff(function_1,10)
+> numerical_diff_t(function_1,5)
+[1] 0
+> numerical_diff(function_1,5)
+[1] 0.2
+> numerical_diff(function_1,10)
+[1] 0.3
 ```
 
 앞에서 작성한 수치 미분 함수가 잘 작동하는지 확인하기 위해서 미분 공식을 이용해서 작성한 `function_1`을 이용해서 비교해봅시다! 이 두 함수를 이용해서 5와 10에서의 미분 값을 계산해보면 두 함수 0.2와 0.3이 나오는 것을 알 수 있습니다.
@@ -56,8 +59,10 @@ function_tmp2<- function(x2){
   return(3^2 + x2*x2)
 }
 
-numerical_diff(function_tmp1, 3)
-numerical_diff(function_tmp2, 4)
+> numerical_diff(function_tmp1, 3)
+[1] 6
+> numerical_diff(function_tmp2, 4)
+[1] 8
 ```
 
 ### 기울기
@@ -88,17 +93,23 @@ function_2 <- function(x){return(sum(colSums(x^2)))}
 R로 기울기를 구하는 방식을 구현했을 때 방식은 x의 모든 원소에 대하여 수치미분을 진행하는 것입니다. 그렇기에 함수 안에 반복문이 들어가며 반복하는 횟수는 x의 개수가 됩니다. 모든 원소에 대해 수치미분을 진행한 것을 벡터로 쌓아 행렬로 만들어 반환해줍니다.  
 
 ```{r}
-numerical_gradient(function_2,matrix(c(3,4),nrow = 1,ncol = 2))
-numerical_gradient(function_2,matrix(c(0,2),nrow = 1,ncol = 2))
-numerical_gradient(function_2,matrix(c(3,0),nrow = 1,ncol = 2))
+> numerical_gradient(function_2,matrix(c(3,4),nrow = 1,ncol = 2))
+     [,1] [,2]
+[1,]    6    8
+> numerical_gradient(function_2,matrix(c(0,2),nrow = 1,ncol = 2))
+     [,1] [,2]
+[1,]    0    4
+> numerical_gradient(function_2,matrix(c(3,0),nrow = 1,ncol = 2))
+     [,1] [,2]
+[1,]    6    0
 ```
 
 그렇다면 기울기가 의미하는 바는 무엇일까요? 기울기 그림을 그려보겠습니다. 기울기의 그림은 방향을 가진 벡터로 그려지는데, 그림을 보시면, 0.0을 향해 화살표의 방향이 그려진 것을 확인할 수 있으며, 가장 낮은 지점(원점)에서 멀어질수록 화살표의 크기가 커짐을 알 수 있습니다. 기울기가 가장 낮은 지점을 가르키지만 실제로 그 지점이 반드시 가장 낮은 지점이라고 말할 수 없습니다. 정확히 말해 기울기가 가리키는 지점은 각 지점에서 함수의 출력값을 최소화하는 방향입니다.
 
 ```{r}
-#install.packages("ggplot2")
+install.packages("ggplot2")
 library(ggplot2)
-#install.packages("ggquiver")
+install.packages("ggquiver")
 library(ggquiver)
 
 x0 <-  seq(-2, 2.25, 0.25)
@@ -125,6 +136,7 @@ data <- data.frame(x=t(X),y=t(Y),u=-grad[1,],v=-grad[2,])
 p<-ggplot(data = data,aes(x = data$x,y = data$y,u=data$u,v=data$v))+geom_quiver()+xlab("x0")+ylab("x1")
 p
 ```
+![기울기 이미지](https://user-images.githubusercontent.com/19144813/79545864-5b336500-80cc-11ea-9d97-2dcf718ce28d.png)
 
 ## 확률적 경사하강법(SGD,Stochastic Gradient Descent)
 
@@ -150,7 +162,9 @@ gradient_descent<- function(f,init_x,lr=0.01,step_num=100){
 function_2 <- function(x){return(sum(colSums(x^2)))}
 
 init_x <- matrix(c(-3,4),nrow = 1,ncol = 2)
-gradient_descent(function_2,init_x = init_x,lr=0.1,step_num = 100)
+> gradient_descent(function_2,init_x = init_x,lr=0.1,step_num = 100)
+              [,1]         [,2]
+[1,] -6.111108e-10 8.148144e-10
 ```
 
 위의 코드에서, `f`는 최적화시키려는 함수이며(최소값을 찾기 위한) `lr`은 학습률을 의미하고, `step_num`은 경사하강법을 반복할 횟수를 의미합니다. 즉 갱신을 반복하는 횟수가 `step_num`입니다. 작성한 함수가 잘 작동하는지를 알아보기 위해 x1^2+x2^2의 최소값을 찾아봅시다. 이 함수의 최소값은 두 변수가 모두 0인 경우가 최소값임을 미리 알 수 있습니다.
@@ -160,8 +174,12 @@ gradient_descent(function_2,init_x = init_x,lr=0.1,step_num = 100)
 학습률이 너무 클 경우 가중치와 편향의 갱신이 너무 큰 값으로 커지게 됩니다. 반면, 학습률이 너무 작을 경우 기존의 가중치와 편향 값이 갱신되지 않고 종료됩니다. 만약 학습률이 0.1 보다 아주 크거나 아주 작으면 어떻게 될까요? 다음 코드의 결과를 확인해 봅시다.
 
 ```{r}
-gradient_descent(function_2,init_x = init_x,lr=10,step_num = 100)
-gradient_descent(function_2,init_x = init_x,lr=1e-10,step_num = 100)
+> gradient_descent(function_2,init_x = init_x,lr=10,step_num = 100)
+              [,1]          [,2]
+[1,] -2.589837e+13 -1.295249e+12
+> gradient_descent(function_2,init_x = init_x,lr=1e-10,step_num = 100)
+     [,1] [,2]
+[1,]   -3    4
 ```
 
 당연히 두 경우 모두 최소값을 제대로 찾지 못하는 것을 확인할 수 있습니다. 따라서 학습률을 적절하게 설정하는 일은 아주 중요합니다.
@@ -202,3 +220,4 @@ colnames(temp) <- c("dia1_x","dia1_y","dia3_x","dia3_y","dia6_x","dia6_y","dia9_
 p_4_10<-ggplot(x_history,aes(x,y))+geom_point()+expand_limits(x=c(-3.5, 3.5),y=c(-4.5, 4.5))+scale_y_continuous(breaks=seq(-4.5,4.5, 1.5))+scale_x_continuous(breaks=seq(-4,4, 1))
 p_4_10+geom_path(data = temp,aes(dia1_x,dia1_y),linetype="dotted")+geom_path(data = temp,aes(dia3_x,dia3_y),linetype="dotted")+geom_path(data = temp,aes(dia6_x,dia6_y),linetype="dotted")+geom_path(data = temp,aes(dia9_x,dia9_y),linetype="dotted")+xlab("x0")+ylab("x1")
 ```
+![이미지 결과](https://user-images.githubusercontent.com/19144813/79547524-02190080-80cf-11ea-8d57-650cff9a3317.png)

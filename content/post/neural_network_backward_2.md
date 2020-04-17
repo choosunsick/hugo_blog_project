@@ -71,7 +71,7 @@ tax <- 1.1
 ```{r}
 
 mul_apple_layer.forward <- MulLayer.forward(apple, apple_num)
-mul_apple_layer.forward
+> mul_apple_layer.forward
 $x
 [1] 100
 
@@ -82,11 +82,11 @@ $out
 [1] 200
 
 apple_price <- mul_apple_layer.forward$out
-apple_price
+> apple_price
 [1] 200
 
 mul_orange_layer.forward <- MulLayer.forward(orange, orange_num)
-mul_orange_layer.forward
+> mul_orange_layer.forward
 $x
 [1] 150
 
@@ -98,7 +98,7 @@ $out
 
 
 orange_price <- mul_orange_layer.forward$out
-orange_price
+> orange_price
 [1] 450
 ```
 
@@ -106,16 +106,16 @@ orange_price
 
 ```{r}
 add_apple_orange_layer.forward <- AddLayer.forward(apple_price, orange_price)
-add_apple_orange_layer.forward
+> add_apple_orange_layer.forward
 $out
 [1] 650
 
 all_price <- add_apple_orange_layer.forward$out
-all_price
+> all_price
 [1] 650
 
 mul_tax_layer.forward <- MulLayer.forward(all_price, tax)
-mul_tax_layer.forward
+> mul_tax_layer.forward
 $x
 [1] 650
 
@@ -126,7 +126,7 @@ $out
 [1] 715
 
 price <- mul_tax_layer.forward$out
-price
+> price
 [1] 715
 ```
 
@@ -138,7 +138,7 @@ price
 dprice <- 1
 
 tax.backward <- MulLayer.backward(mul_tax_layer.forward, dprice)
-tax.backward
+> tax.backward
 $dx
 [1] 1.1
 
@@ -146,11 +146,11 @@ $dy
 [1] 650
 
 dall_price <- tax.backward$dx
-dall_price
+> dall_price
 [1] 1.1
 
 dtax <- tax.backward$dy
-dtax
+> dtax
 [1] 650
 ```
 
@@ -158,7 +158,7 @@ dtax
 
 ```{r}
 add_apple_orange_layer.backward <- AddLayer.backward(dall_price)
-add_apple_orange_layer.backward
+> add_apple_orange_layer.backward
 $dx
 [1] 1.1
 
@@ -166,11 +166,11 @@ $dy
 [1] 1.1
 
 dapple_price <- add_apple_orange_layer.backward$dx
-dapple_price
+> dapple_price
 [1] 1.1
 
 dorange_price <- add_apple_orange_layer.backward$dy
-dorange_price
+> dorange_price
 [1] 1.1
 ```
 
@@ -178,7 +178,7 @@ dorange_price
 
 ```{r}
 apple.backward <- MulLayer.backward(mul_apple_layer.forward, dapple_price)
-apple.backward
+> apple.backward
 $dx
 [1] 2.2
 
@@ -186,11 +186,11 @@ $dy
 [1] 110
 
 dapple <- apple.backward$dx
-dapple
+> dapple
 [1] 2.2
 
 dapple_num <- apple.backward$dy
-dapple_num
+> dapple_num
 [1] 110
 ```
 
@@ -201,7 +201,7 @@ dapple_num
 ```{r}
 
 orange.backward <- MulLayer.backward(mul_orange_layer.forward, dorange_price)
-orange.backward
+> orange.backward
 $dx
 [1] 3.3
 
@@ -209,14 +209,14 @@ $dy
 [1] 165
 
 dorange <- orange.backward$dx
-dorange
+> dorange
 [1] 3.3
 
 dorange_num <- orange.backward$dy
-dorange_num
+> dorange_num
 [1] 165
 
-c(dapple_num, dapple, dorange_num, dorange, dtax)
+> c(dapple_num, dapple, dorange_num, dorange, dtax)
 [1] 110.0   2.2 165.0   3.3 650.0
 ```
 

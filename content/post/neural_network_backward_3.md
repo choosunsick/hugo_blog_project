@@ -28,9 +28,16 @@ categories: ["R"]
 ```{r}
 
 x <- matrix(c(1,-2,-0.5,3),2,2)
-x
+> x
+     [,1] [,2]
+[1,]    1 -0.5
+[2,]   -2  3.0
+
 mask <- x< 0
-mask
+> mask
+      [,1]  [,2]
+[1,] FALSE  TRUE
+[2,]  TRUE FALSE
 
 Relu.forward <- function(x){
   mask <- x < 0
