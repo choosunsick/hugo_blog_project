@@ -16,14 +16,8 @@ categories: ["R"]
 
 ```
 a <- matrix(data = 1:6, nrow = 2, ncol = 3, byrow = FALSE)
-b <- c(1,2)
-c <- c(1,2,3)
-a
-b
-c
-a*2
-a*b
-a*c
+b <- c(1, 2)
+c <- c(1, 2, 3)
 
 > a
      [,1] [,2] [,3]
@@ -59,14 +53,6 @@ a*c
 a <- matrix(data = 1:6, nrow = 2, ncol = 3, byrow = TRUE)
 b <- matrix(data = 1:6, nrow = 3, ncol = 2, byrow = FALSE)
 c <- matrix(data = 1:6, nrow = 2, ncol = 3, byrow = FALSE)
-a
-b
-c
-
-a*c
-a%*%b
-a%*%c 에러 케이스
-
 
 > a
      [,1] [,2] [,3]

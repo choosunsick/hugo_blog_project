@@ -79,7 +79,7 @@ source("./DeepLearningFromForR/chapter_2_3.R")
 #BiocManager::install("rhdf5")
 library(rhdf5)
 init <- H5Fopen("./deep_learn_R/Data/sample_weights.h5")
-model <- list(matrix(init$"W1",784,50), matrix(init$"b1",1,50), matrix(init$"W2",50,100), matrix(init$"b2",1,100), matrix(init$"W3",100,10), matrix(init$"b3",1,10))
+model <- list(matrix(init$"W1", 784, 50), matrix(init$"b1", 1, 50), matrix(init$"W2", 50, 100), matrix(init$"b2", 1, 100), matrix(init$"W3", 100, 10), matrix(init$"b3", 1, 10))
 names(model) <- c("W1", "b1", "W2", "b2", "W3", "b3")
 
 > str(model)
@@ -96,9 +96,9 @@ List of 6
 
 ```{r}
 model.evaluate.single <- function(model,x,t){
-  y <- do.call(rbind,lapply(1:NROW(x),function(i)max.col(model.forward(model,x[i,]))))
+  y <- do.call(rbind, lapply(1:NROW(x), function(i)max.col(model.forward(model, x[i,]))))
   t <- max.col(t)
-  accuracy <- (sum(ifelse(y==t,1,0))) / dim(x)[1]
+  accuracy <- (sum(ifelse(y==t, 1, 0))) / dim(x)[1]
   return(accuracy)
 }
 
@@ -116,20 +116,20 @@ model.evaluate.single(model,x_test_normalize,t_test_onehotlabel)
 
 ```{r}
 model.evaluate <- function(model,x,t){
-  y <- max.col(model.forward(model,x))
+  y <- max.col(model.forward(model, x))
   t <- max.col(t)
   accuracy <- (sum(ifelse(y==t,1,0))) / dim(x)[1]
   return(accuracy)
 }
 
-> model.evaluate(model,x_test_normalize,t_test_onehotlabel)
+> model.evaluate(model, x_test_normalize, t_test_onehotlabel)
 [1] 0.9352
 
-> system.time(model.evaluate.single(model,x_test_normalize,t_test_onehotlabel))
+> system.time(model.evaluate.single(model, x_test_normalize, t_test_onehotlabel))
    user  system elapsed
   2.733   0.024   2.763
-  
-> system.time(model.evaluate(model,x_test_normalize,t_test_onehotlabel))
+
+> system.time(model.evaluate(model, x_test_normalize, t_test_onehotlabel))
    user  system elapsed
   0.427   0.014   0.441
 

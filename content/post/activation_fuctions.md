@@ -25,7 +25,7 @@ step_fun <- function(x){
   return(ifelse(x > 0, 1, 0))
 }
 
-> step_fun(c(-1,1,2))
+> step_fun(c(-1, 1, 2))
 [1] 0 1 1
 ```
 
@@ -35,7 +35,7 @@ step_fun <- function(x){
 #install.packages("ggplot2")
 library(ggplot2)
 
-x <- seq(from =  -5, to =  4.9, by =  0.1)
+x <- seq(from = -5, to = 4.9, by = 0.1)
 y <- step_fun(x)
 data <- data.frame(x, y)
 
@@ -79,7 +79,7 @@ data <- data.frame(x, y)
  $ x: num  -5 -4.9 -4.8 -4.7 -4.6 -4.5 -4.4 -4.3 -4.2 -4.1 ...
  $ y: num  0.00669 0.00739 0.00816 0.00901 0.00995 ...
 
-ggplot(data, aes(x, y))+geom_line()
+ggplot(data, aes(x, y)) + geom_line()
 
 ![Sigmoid 함수](https://user-images.githubusercontent.com/19144813/78967271-f2cd0c80-7b3c-11ea-9918-5300e40f5299.png)
 ```
@@ -96,7 +96,7 @@ ggplot(data, aes(x, y))+geom_line()
 relu <- function(x){
   return(ifelse(x > 0, x, 0))
 }
-x <- matrix(c(-1, 1, 2),1,3)
+x <- matrix(c(-1, 1, 2), 1, 3)
 
 > x
      [,1] [,2] [,3]
@@ -110,7 +110,7 @@ x <- matrix(c(-1, 1, 2),1,3)
 이제 다른 함수들과 마찬가지로 ReLu 함수를 R로 구현하고, 그려보겠습니다.
 
 ```{r echo=TRUE}
-x <- seq(from =  -5, to =  4.9, by = 0.1)
+x <- seq(from = -5, to = 4.9, by = 0.1)
 y <- relu(x)
 data <- data.frame(x, y)
 
@@ -119,7 +119,7 @@ data <- data.frame(x, y)
  $ x: num  -5 -4.9 -4.8 -4.7 -4.6 -4.5 -4.4 -4.3 -4.2 -4.1 ...
  $ y: num  0 0 0 0 0 0 0 0 0 0 ...
 
-ggplot(data, aes(x, y))+geom_line()
+ggplot(data, aes(x, y)) + geom_line()
 
 ![ReLU 함수](https://user-images.githubusercontent.com/19144813/78967414-6111cf00-7b3d-11ea-9b69-d3aafe8b7db6.png)
 ```

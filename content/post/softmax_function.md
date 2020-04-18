@@ -16,7 +16,7 @@ categories: ["R"]
 identify_fun <- function(x){
   return(x)
 }
-x <- matrix(c(0.3,2.9,4),1,3)
+x <- matrix(c(0.3, 2.9, 4), 1, 3)
 > x
      [,1] [,2] [,3]
 [1,]  0.3  2.9    4
@@ -33,7 +33,7 @@ x <- matrix(c(0.3,2.9,4),1,3)
 softmax <- function(a){
   return(exp(a) / sum(exp(a)))
 }
-x <- matrix(c(0.3,2.9,4),1,3)
+x <- matrix(c(0.3, 2.9, 4), 1, 3)
 > x
      [,1] [,2] [,3]
 [1,]  0.3  2.9    4
@@ -60,7 +60,7 @@ x <- matrix(c(0.3,2.9,4),1,3)
 
 ```{r}
 softmax <- function(a){
-  exp_a <- exp(a -  max(a))
+  exp_a <- exp(a - max(a))
   sum_exp_a <- sum(exp_a)
   return(exp_a / sum_exp_a)
 }
@@ -85,15 +85,15 @@ softmax <- function(a){
 3층 신경망의 구조를 떠올리고 나면 신호의 전달이 다음과 같이 진행됨을 알 수 있습니다. 입력층-은닉층(W1,b1), 은닉층-은닉층(W2,b2), 은닉층-출력층(W3,b3)으로 3개의 신호 전달이 있습니다. 3개의 신호 전달됨에 따라 초기값 역시 3개의 가중치와 편향이 필요합니다. 또한, 신호 전달 과정을 구현함에 있어 활성화 함수로서 시그모이드 함수와 출력층에서 결과를 출력하기 위한 항등함수가 사용됩니다. 이제 신호 전달과정을 나타낸 함수와 초기값을 만드는 함수 2가지를 구현해보겠습니다.
 
 ```{r}
-source("./DeepLearningFromForR/functions.R")
-source("./DeepLearningFromForR/numerical_gradient.R")
+source("./functions.R")
+source("./numerical_gradient.R")
 
 init <- function(){
-  W1 <- matrix(seq(0.1,0.6,0.1), nrow = 2, ncol = 3)
-  b1 <- matrix(seq(0.1,0.3,0.1), nrow = 1, ncol = 3)
-  W2 <- matrix(seq(0.1,0.6,0.1), nrow = 3, ncol = 2)
+  W1 <- matrix(seq(0.1, 0.6, 0.1), nrow = 2, ncol = 3)
+  b1 <- matrix(seq(0.1, 0.3, 0.1), nrow = 1, ncol = 3)
+  W2 <- matrix(seq(0.1, 0.6, 0.1), nrow = 3, ncol = 2)
   b2 <- matrix(c(0.1, 0.2), nrow = 1, ncol = 2)
-  W3 <- matrix(seq(0.1,0.4,0.1), nrow = 2, ncol = 2)
+  W3 <- matrix(seq(0.1, 0.4, 0.1), nrow = 2, ncol = 2)
   b3 <- matrix(c(0.1, 0.2), nrow = 1,ncol = 2)
   model <- list(W1, b1, W2, b2, W3, b3)
   names(model) <- c("W1", "b1", "W2", "b2", "W3", "b3")
@@ -101,11 +101,11 @@ init <- function(){
 }
 
 model.forward <- function(model, x){
-  a1 <- sweep(x %*% model$W1,2,model$b1,"+")
+  a1 <- sweep(x %*% model$W1, 2, model$b1, "+")
   z1 <- sigmoid(a1)
-  a2 <- sweep(z1 %*% model$W2,2,model$b2,"+")
+  a2 <- sweep(z1 %*% model$W2, 2, model$b2, "+")
   z2 <- sigmoid(a2)
-  a3 <- sweep(z2 %*% model$W3,2,model$b3,"+")
+  a3 <- sweep(z2 %*% model$W3, 2, model$b3, "+")
   return(identify_fun(a3))
 }
 ```

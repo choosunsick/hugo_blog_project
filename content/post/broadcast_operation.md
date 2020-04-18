@@ -17,12 +17,6 @@ categories: ["R"]
 ```
 a <- matrix(data = 1:6, nrow = 2, ncol = 3, byrow = FALSE)
 b <- c(1,2)
-a
-b_matrix <- matrix(b,2,3)
-b_matrix
-a*b
-a*b_matrix
-all.equal(a*b, a*b_matrix)
 
 > a
      [,1] [,2] [,3]
