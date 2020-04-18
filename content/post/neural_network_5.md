@@ -126,9 +126,25 @@ x_test_normalize <- x_test/255
 불러온 함수들을 확인합니다.
 
 ```{r}
-sigmoid
-softmax
-cross_entropy_error
+> print.function(sigmoid)
+function(x){
+    return(1 / (1 + exp(-x)))
+}
+
+> print.function(softmax)
+function(a){
+    exp_a <- exp(a - apply(a,1,max))
+    return(sweep(exp_a,1,rowSums(exp_a),"/"))
+}
+<bytecode: 0x7fe1f2b15a00>
+
+> print.function(cross_entropy_error)
+function(y, t){
+    delta <- 1e-7
+    batchsize <- dim(y)[1]
+    return(-sum(t * log(y + delta))/batchsize)
+}
+<bytecode: 0x7fe1ef447a70>
 ```
 
 이제 신경망 모델의 계산을 담당하는 함수들을 구현해 봅시다.
