@@ -51,7 +51,7 @@ TwoLayerNet <- function(input_size, hidden_size, output_size, weight_init_std = 
 순전파와 역전파 계산에 필요한 함수는 활성화 함수인 `ReLU()`와 순전파에서 가중치 행렬와 편향 행렬의 계산을 하는 `affine()` 계층,  `softmax`와 `loss` 함수를 같이 묶은 `softmaxwithloss()`입니다.
 
 ```{r}
-source("./DeepLearningFromForR/functions.R")
+source("./functions.R")
 ```
 
 역전파 계산에 앞서 순전파 계산에 필요한 것으로는 손실 함수 계산에 필요한 model.backward 함수가 있습니다. 이 함수에 대한 구현은 다음과 같습니다. 이 함수는 함수의 이름만 변경 되었을 뿐 사실상 계산 구조는 순전파에서와 같습니다.
@@ -106,8 +106,8 @@ gradient <- function(x, t) {
 
 ```{r}
 library(dslabs)
-source("./DeepLearningFromForR/utils.R")
-source("./DeepLearningFromForR/numerical_gradient.R")
+source("./utils.R")
+source("./numerical_gradient.R")
 
 mnist_data <- get_data()
 
@@ -189,7 +189,7 @@ $b2
 이제 오차역전파법을 통한 학습 과정을 알아보겠습니다. 학습과정은 순전파와 크게 다른 바가 없습니다. 차이점은 단지 역전파를 통해 기울기를 찾고 그 값으로 갱신한다는 점입니다. 먼저 필요한 객체들과, 훈련데이터 및 테스트셋을 준비합니다.
 
 ```{r}
-source("./DeepLearningFromForR/utils.R")
+source("./utils.R")
 library(dslabs)
 
 mnist_data <- get_data()
