@@ -52,6 +52,7 @@ TwoLayerNet <- function(input_size, hidden_size, output_size, weight_init_std = 
 
 ```{r}
 source("./functions.R")
+
 ```
 
 역전파 계산에 앞서 순전파 계산에 필요한 것으로는 손실 함수 계산에 필요한 model.backward 함수가 있습니다. 이 함수에 대한 구현은 다음과 같습니다. 이 함수는 함수의 이름만 변경 되었을 뿐 사실상 계산 구조는 순전파에서와 같습니다.
@@ -106,6 +107,7 @@ gradient <- function(x, t) {
 
 ```{r}
 library(dslabs)
+source("./functions.R")
 source("./utils.R")
 source("./numerical_gradient.R")
 
@@ -130,6 +132,8 @@ t_batch <- t_train_onehotlabel[1:3,]
 기울기를 비교할 데이터는 훈련데이터를 3개씩 뽑아 비교에 사용합니다.
 
 ```{r}
+TwoLayerNet(input_size = 784, hidden_size = 50, output_size = 10)
+
 W1 <- params$W1
 b1 <- params$b1
 W2 <- params$W2
