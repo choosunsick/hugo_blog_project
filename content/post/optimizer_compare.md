@@ -1,5 +1,5 @@
 ---
-title: "Optimizer_compare"
+title: "옵티마이저(optimizer) 비교하기"  
 date: 2020-08-12T18:26:14+09:00
 draft: FALSE
 tags: ["R로 딥러닝하기", "신경망", "옵티마이저"]
@@ -316,4 +316,4 @@ ggplot(data = sgd_result)+geom_point(aes(x=1:2000,y=test_acc,color="sgd"))+geom_
 
 ![정확도 비교](https://user-images.githubusercontent.com/19144813/90000743-80775f00-dccb-11ea-9e1c-fa511bb97f3f.png)
 
-결론적으로 같은 조건일 때 모델의 성능을 가장 좋게 만드는 옵티마이저는 Rmsprop 과 Adam 입니다. 
+결론적으로 같은 조건일 때 모델의 성능을 가장 좋게 만드는 옵티마이저는 Rmsprop 과 Adam 입니다.
