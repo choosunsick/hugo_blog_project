@@ -105,7 +105,7 @@ CMD ["/usr/bin/shiny-server.sh"]
 
 ```
 
-맨 첫 줄의 FROM은 Docker가 사용할 기본 이미지를 알려주는 역할을 합니다. 여기서 기본이미지란 rocker/shiny-verse라는 컨테이너를 바탕으로 삼는 것을 말합니다. 우리의 샤이니 앱을 도커 컨테이너로 만들 때 기본 이미지 위에서 추가되어 작동하게 됩니다. 이 도커 이미지에 대한 자세한 내용은 [rocker-shiny-verse 소개 페이지](https://hub.docker.com/r/rocker/shiny-verse)에서 확인하실 수 있습니다.
+맨 첫 줄의 FROM은 Docker가 사용할 기본 이미지를 알려주는 역할을 합니다. 샤이니 앱을 도커 컨테이너로 만드는 경우 기본 이미지 위에서 그것을 바탕으로 앱의 기능을 추가하여 작동하게 됩니다. 이 도커 이미지에 대한 자세한 내용은 [rocker-shiny-verse 소개 페이지](https://hub.docker.com/r/rocker/shiny-verse)에서 확인하실 수 있습니다.
 
 `RUN apt-get update && apt-get install -y \`는 샤이니 서버를 실행하는데 필요한 Linux 유틸리티들을 설치해줍니다.
 
@@ -113,9 +113,9 @@ CMD ["/usr/bin/shiny-server.sh"]
 
 `COPY shiny-server.sh /usr/bin/shiny-server.sh`, `COPY app.R /srv/shiny-server` 는 도커 이미지에 샤이니 서버 구동에 필요한 스크립트와 샤이니 앱을 복사해주는 역할을 합니다. 차후 샤이니 앱을 구동하는데 필요한 외부 csv 데이터나 보조 스크립트 등이 있다면 이 줄에 마찬가지로 복사시켜줘야 합니다.
 
-`EXPOSE 3838` 은 도커 이미지를 실행시킬 포트를 설정하는 줄입니다.
+`EXPOSE 3838` 은 도커 이미지를 실행시켜 포트에 연결하는 것입니다.
 
-`RUN ["chmod", "+x", "/usr/bin/shiny-server.sh"]` 는 도커 이미지 컨테이너에서 chmod 명령어를 통해 파일을 실행할 수 있도록 해줍니다.
+`RUN ["chmod", "+x", "/usr/bin/shiny-server.sh"]` 는 도커 이미지 컨테이너에서 chmod 명령어를 통해 사용 권한을 주어 파일을 실행할 수 있도록 해줍니다.
 
 마지막으로 `CMD ["/usr/bin/shiny-server.sh"]` 는 샤이니가 서버를 실행하고 우리가 만든 앱 파일을 실행하도록 해줍니다. 이렇게 만든 Dockerfile은 우리가 만든 app.R 파일과 같은 위치에 저장해 줍니다.
 
@@ -142,4 +142,4 @@ Successfully tagged test-shiny-app:latest
 
 ```
 
-이제 이미지가 생성되었으니 `docker run -p 3838:3838 MyDockerImageNAME` 의 형식으로 실행하면 지정한 포트번호에서 앱이 실행되는 것을 확인할 수 있습니다. 실행된 앱을 확인하고 싶으면 http://localhost:3838/ 을 입력하면 됩니다.
+이제 이미지가 생성되었으니 `docker run -p 3838:3838 test-shiny-app` 으로 실행하면 지정한 포트번호에서 앱이 실행되는 것을 확인할 수 있습니다. 실행된 앱을 확인하고 싶으면 http://localhost:3838/ 을 입력하면 됩니다.
