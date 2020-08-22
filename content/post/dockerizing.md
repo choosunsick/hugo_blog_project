@@ -64,8 +64,42 @@ docker run --rm -p 3838:3838 rocker/shiny-verse
  기본 앱을 도커라이징해도 되지만 데이터를 약간 바꿔서 올려봅시다. 먼저 기존에 Faithfull 데이터 대신 mtcars 데이터를 사용해 봅시다. mtcars 데이터는 R의 기본 데이터로 1974년 US magazine에 Motor Trend에 대한 데이터입니다. 이제 mtcars 자료의 마력(horse power) 데이터를 히스토그램으로 그려봅시다.
 
  기본 앱에서 바뀌는 부분은 많지 않습니다. 바뀌는 부분은 크게 2가지로 ui와 server 부분입니다. 먼저 ui 부분에서는 titlePanel 안에 이름 부분을 "mtcars Hp Data"로 변경해 줍니다. 그 다음 히스토그램의 최소 최대 빈도 수를 변경해 줍니다. 최소 최대 빈도 수를 변경하는 이유는 mtcars의 데이터 수가 32개이기 때문에 그 이상의 빈도 수로 히스토그램을 나타내는 것은 의미가 없기 때문입니다. ui의 sliderInput안의 min 값을 1로 max 값을 30으로 변경해 줍니다.
- 또한, 현재 value 값도 30에서 1과 30의 중간인 15로 변경해줍니다. 이렇게 변경하면 ui 코드에서 변경할 내용은 끝입니다. 다음으로 server 코드에서 변경할 내용은 더욱 간단합니다. 서버 함수에서 데이터가 들어가는 부분인 x 변수를 정의하는 코드 줄에서 `faithful[,2]` 를 `mtcars$hp`로 변경하면 끝입니다.
+ 또한, 현재 value 값도 30에서 1과 30의 중간인 15로 변경해줍니다. 이렇게 변경하면 ui 코드에서 변경할 내용은 끝입니다. 다음으로 server 코드에서 변경할 내용은 더욱 간단합니다. 서버 함수에서 데이터가 들어가는 부분인 x 변수를 정의하는 코드 줄에서 `faithful[,2]` 를 `mtcars$hp`로 변경하면 끝입니다. 아래가 변경이 완료된 코드입니다. 
 
+ ```
+ ui <- fluidPage(
+
+    # Application title
+    titlePanel("mtcars Hp Data"),
+
+    # Sidebar with a slider input for number of bins
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("bins",
+                        "Number of bins:",
+                        min = 1,
+                        max = 30,
+                        value = 15)
+        ),
+
+        # Show a plot of the generated distribution
+        mainPanel(
+           plotOutput("distPlot")
+        )
+    )
+)
+
+server <- function(input, output) {
+    output$distPlot <- renderPlot({
+        # generate bins based on input$bins from ui.R
+        x    <- mtcars$hp
+        bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
+        # draw the histogram with the specified number of bins
+        hist(x, breaks = bins, col = 'darkgray', border = 'white')
+    })
+}
+ ```
 ### Dockerizing 하기
 
 이제 마지막으로 도커 컨테이너를 만들고 실행시키는 일만 남았습니다. 도커 컨테이너를 만드는데 중요한 것은 Dockerfile과 스크립트 파일을 만드는 것입니다. Dockerfile은 앱을 실행시키는데 필요한 패키지나 데이터 등의 조건들을 가져옵니다. Dockerfile에 대한 자세한 내용은 [Dockerfile best practice](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)에서 확인할 수 있습니다. 아래는 Dockerfile의 기본적인 형식입니다.
