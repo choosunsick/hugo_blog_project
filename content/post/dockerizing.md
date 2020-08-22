@@ -133,13 +133,56 @@ exec shiny-server >> /var/log/shiny-server.log 2>&1
 ```
 ## 앱 만들어 실행하기
 
-마지막으로 만들어진 앱을 실행할 차례입니다. 먼저 터미널이나 CMD를 열어서 Dockerfile이 포함된 폴더로 이동해줍니다. `docker build -t <NAME> <DOCKERFILE_PATH>` 는 도커 이미지를 생성해줍니다. 참고로 `<NAME>`은 도커 이미지 파일의 이름을 의미하며, 이후 이미지를 실행시킬 때 사용됩니다. `<DOCKERFILE_PATH>` 는 Dockerfile의 파일 경로입니다. 참고로 이미 폴더에 있는 경우에는 `.` 을 입력하면 됩니다. 예를 들면 `docker build -t test-shiny-app  .`와 같이 입력하면 도커 이미지가 생성됩니다. 에러 없이 무사히 이미지가 생성될 경우 마지막에 아래와 같은 두 줄을 볼 수 있습니다.
+마지막으로 만들어진 앱을 실행할 차례입니다. 먼저 터미널이나 CMD를 열어서 Dockerfile이 포함된 폴더로 이동해줍니다. `docker build -t <NAME> <DOCKERFILE_PATH>` 는 도커 이미지를 생성해줍니다. 참고로 `<NAME>`은 도커 이미지 파일의 이름을 의미하며, 이후 이미지를 실행시킬 때 사용됩니다. `<DOCKERFILE_PATH>` 는 Dockerfile의 파일 경로입니다. 참고로 이미 폴더에 있는 경우에는 `.` 을 입력하면 됩니다. 이제 직접 `docker build -t test-shiny-app  .`와 같이 입력하여 도커 이미지를 생성합니다. 이미지가 생성되는 도중 에러가 발생하지 않고 무사히 생성되면 맨 마지막에 아래의 두 줄이 출력됩니다.
 
 ```
+> docker build -t test-shiny-app  .
 
+Sending build context to Docker daemon  2.814MB
+Step 1/12 : FROM rocker/shiny-verse:latest
+ ---> 8be2555ecf1d
+Step 2/12 : RUN apt-get update && apt-get install -y     sudo     pandoc     pandoc-citeproc     libcurl4-gnutls-dev     libcairo2-dev     libxt-dev     libssl-dev     libssh2-1-dev
+ ---> Using cache
+ ---> 94a312813121
+Step 3/12 : RUN R -e "install.packages('shiny', repos='http://cran.rstudio.com/')"
+ ---> Using cache
+ ---> 7941ffbd8a88
+Step 4/12 : RUN R -e "install.packages('shinydashboard', repos='http://cran.rstudio.com/')"
+ ---> Using cache
+ ---> ae0e7734fc03
+Step 5/12 : RUN R -e "install.packages('plotly', repos='http://cran.rstudio.com/')"
+ ---> Using cache
+ ---> 5393c96c0124
+Step 6/12 : RUN R -e "install.packages('tidyverse', repos='http://cran.rstudio.com/')"
+ ---> Using cache
+ ---> 5e2cd4405c54
+Step 7/12 : RUN R -e "install.packages('lubridate', repos='http://cran.rstudio.com/')"
+ ---> Using cache
+ ---> 8dce593b0aa9
+Step 8/12 : COPY shiny-server.sh /usr/bin/shiny-server.sh
+ ---> Using cache
+ ---> 36d349eab349
+Step 9/12 : COPY app.R /srv/shiny-server
+ ---> Using cache
+ ---> b8f3863507d8
+Step 10/12 : EXPOSE 3838
+ ---> Using cache
+ ---> 70c2b53ebde2
+Step 11/12 : RUN ["chmod", "+x", "/usr/bin/shiny-server.sh"]
+ ---> Using cache
+ ---> 09589452e211
+Step 12/12 : CMD ["/usr/bin/shiny-server.sh"]
+ ---> Using cache
+ ---> b5dc252f66fa
 Successfully built b5dc252f66fa
 Successfully tagged test-shiny-app:latest
 
 ```
 
-이제 이미지가 생성되었으니 `docker run -p 3838:3838 test-shiny-app` 으로 실행하면 지정한 포트번호에서 앱이 실행되는 것을 확인할 수 있습니다. 실행된 앱을 확인하고 싶으면 http://localhost:3838/ 을 입력하면 됩니다.
+이제 이미지가 생성되었으니 터미널이나 CMD에서 아래의 명령어로 실행하면 지정한 포트번호에서 앱이 실행되는 것을 확인할 수 있습니다.
+
+```
+> docker run -p 3838:3838 test-shiny-app
+```
+
+실행된 앱을 웹에서 확인하고 싶으시면 인터넷 창에서 http://localhost:3838/ 을 입력하면 됩니다.
