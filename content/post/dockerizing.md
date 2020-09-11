@@ -64,7 +64,7 @@ docker run --rm -p 3838:3838 rocker/shiny-verse
  기본 앱을 도커라이징해도 되지만 데이터를 약간 바꿔서 올려봅시다. 먼저 기존에 Faithfull 데이터 대신 mtcars 데이터를 사용해 봅시다. mtcars 데이터는 R의 기본 데이터로 1974년 US magazine에 Motor Trend에 대한 데이터입니다. 이제 mtcars 자료의 마력(horse power) 데이터를 히스토그램으로 그려봅시다.
 
  기본 앱에서 바뀌는 부분은 많지 않습니다. 바뀌는 부분은 크게 2가지로 ui와 server 부분입니다. 먼저 ui 부분에서는 titlePanel 안에 이름 부분을 "mtcars Hp Data"로 변경해 줍니다. 그 다음 히스토그램의 최소 최대 빈도 수를 변경해 줍니다. 최소 최대 빈도 수를 변경하는 이유는 mtcars의 데이터 수가 32개이기 때문에 그 이상의 빈도 수로 히스토그램을 나타내는 것은 의미가 없기 때문입니다. ui의 sliderInput안의 min 값을 1로 max 값을 30으로 변경해 줍니다.
- 또한, 현재 value 값도 30에서 1과 30의 중간인 15로 변경해줍니다. 이렇게 변경하면 ui 코드에서 변경할 내용은 끝입니다. 다음으로 server 코드에서 변경할 내용은 더욱 간단합니다. 서버 함수에서 데이터가 들어가는 부분인 x 변수를 정의하는 코드 줄에서 `faithful[,2]` 를 `mtcars$hp`로 변경하면 끝입니다. 아래가 변경이 완료된 코드입니다. 
+ 또한, 현재 value 값도 30에서 1과 30의 중간인 15로 변경해줍니다. 이렇게 변경하면 ui 코드에서 변경할 내용은 끝입니다. 다음으로 server 코드에서 변경할 내용은 더욱 간단합니다. 서버 함수에서 데이터가 들어가는 부분인 x 변수를 정의하는 코드 줄에서 `faithful[,2]` 를 `mtcars$hp`로 변경하면 끝입니다. 아래가 변경이 완료된 코드입니다.
 
  ```
  ui <- fluidPage(
@@ -168,7 +168,7 @@ exec shiny-server >> /var/log/shiny-server.log 2>&1
 ```
 ## 앱 만들어 실행하기
 
-마지막으로 만들어진 앱을 실행할 차례입니다. 먼저 터미널이나 CMD를 열어서 Dockerfile이 포함된 폴더로 이동해줍니다. `docker build -t <NAME> <DOCKERFILE_PATH>` 는 도커 이미지를 생성해줍니다. 참고로 `<NAME>`은 도커 이미지 파일의 이름을 의미하며, 이후 이미지를 실행시킬 때 사용됩니다. `<DOCKERFILE_PATH>` 는 Dockerfile의 파일 경로입니다. 참고로 이미 폴더에 있는 경우에는 `.` 을 입력하면 됩니다. 이제 직접 `docker build -t test-shiny-app  .`와 같이 입력하여 도커 이미지를 생성합니다. 이미지가 생성되는 도중 에러가 발생하지 않고 무사히 생성되면 맨 마지막에 아래의 두 줄이 출력됩니다.
+마지막으로 만들어진 앱을 실행할 차례입니다. 먼저 터미널이나 CMD를 열어서 Dockerfile이 포함된 폴더로 이동해줍니다. `docker build -t <NAME> <DOCKERFILE_PATH>` 는 도커 이미지를 생성해줍니다. 참고로 `<NAME>`은 도커 이미지 파일의 이름을 의미하며, 이후 이미지를 실행시킬 때 사용됩니다. `<DOCKERFILE_PATH>` 는 Dockerfile의 파일 경로입니다. 참고로 이미 폴더에 있는 경우에는 `.` 을 입력하면 됩니다. 이제 직접 `docker build -t test-shiny-app  .`와 같이 입력하여 도커 이미지를 생성합니다. 이미지가 생성되는 도중 에러가 발생하지 않고 무사히 생성되면 마지막에 아래와 같이 출력됩니다.
 
 ```
 > docker build -t test-shiny-app  .
