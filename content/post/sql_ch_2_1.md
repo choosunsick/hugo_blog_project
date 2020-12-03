@@ -1,7 +1,9 @@
 ---
-title: "Sql_ch_2_1"
+title: "HEAD FIRST SQL 챕터 2장 요약정리-2"
 date: 2020-12-03T19:12:50+09:00
-draft: true
+draft: False
+tags: ["SQL"]
+categories: ["SQL"]
 ---
 
 ## 2장 SELECT 문: 데이터 가져오기의 축복

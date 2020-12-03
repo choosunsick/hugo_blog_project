@@ -1,5 +1,5 @@
 ---
-title: "HEAD FIRST SQL 챕터 2장 요약정리"
+title: "HEAD FIRST SQL 챕터 2장 요약정리-1"
 date: 2020-12-03T19:11:13+09:00
 draft: False
 tags: ["SQL"]
