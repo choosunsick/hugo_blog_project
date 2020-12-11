@@ -324,25 +324,6 @@ clustercmd sudo mkdir -p /opt/hadoop
 clustercmd sudo chown pi:pi /opt/hadoop
 ```
 
-아래 명령어를 통해 다른 파이들에게 하둡 설치와 설정을 복사해줍니다.
-
-```bash
-for pi in $(otherpis); do rsync –avxP $HADOOP_HOME $pi:/opt; done
-```
-
-복사가 끝나면 설정을 다시한번 복사 및 적용해줍니다.
-
-```bash
-clusterscp ~/.bashrc
-clustercmd source ~/.bashrc
-```
-
-아래 명령어에 3.2.1이 다른 파이의 개수만큼 뜨면 다른 파이에 하둡이 설치가 잘 되었다는 것입니다.
-
-```bash
-clustercmd hadoop version | grep Hadoop
-```
-
 ## 분산 시스템을 위한 config 변경
 
 먼저 설정 파일이 있는 디렉토리로 변경해줍니다.
@@ -438,20 +419,26 @@ vim yarn-site.xml
 </property>
 <property>
         <name>yarn.nodemanager.resource.memory-mb</name>
-        <value>1536</value>
+        <value>3072</value>
 </property>
 <property>
         <name>yarn.scheduler.maximum-allocation-mb</name>
-        <value>1536</value>
+        <value>3072</value>
 </property>
 <property>
         <name>yarn.scheduler.minimum-allocation-mb</name>
-        <value>128</value>
+        <value>256</value>
 </property>
 <property>
         <name>yarn.nodemanager.vmem-check-enabled</name>
         <value>false</value>
 </property>
+```
+
+아래 명령어를 통해 다른 파이들에게 하둡 파일과 설정을 복사해줍니다.
+
+```bash
+for pi in $(otherpis); do rsync –avxP $HADOOP_HOME $pi:/opt; done
 ```
 
 설정 파일 변경이 끝나면 다른 파이에서 데이터 노드와 네임 노드를 삭제하여 초기화 시켜줍니다. 이후 name node가 마스터에서 작동하지 않을 수 있기에 초기화 과정을 거쳐줍니다.
@@ -501,3 +488,45 @@ jps
 ```
 
 jps 를 쳤을때 마스터에는 namenode가 있고 워커 라즈베리파이에 jps를 쳤을 때 datanode가 있으면 분산 시스템이 잘 적용된 것입니다.
+
+```bash
+yarn node –list
+```
+
+위 명령어를 쳐서 자신의 워커 개수만큼의 노드 수가 나오면 분산 시스템이 잘 적용된 것입니다. 이외에도 `9870, 8088`등의 번호로 hdfs와 yarn 실행 환경을 웹 상에서 확인하실 수 있습니다. 정확한 방법은 `pi1.local:9870, pi1.local:8088` 이며 만약 마스터 이름을 변경했다면 pi1.local 자리에 자신의 마스터 라즈베리파이의 이름을 적어주어야 합니다.
+
+## word count로 하둡 분산 시스템 테스트하기
+
+먼저 하둡 공간에 텍스트 파일을 저장할 장소를 만듭니다.
+
+```bash
+hdfs dfs -mkdir -p /user/pi
+hdfs dfs -mkdir books
+cd ~
+```
+
+텍스트 파일은 아래의 링크에서 받아오실 수 있습니다.
+
+```bash
+wget -O alice.txt https://www.gutenberg.org/files/11/11-0.txt
+wget -O holmes.txt https://www.gutenberg.org/files/1661/1661-0.txt
+wget -O frankenstein.txt https://www.gutenberg.org/files/84/84-0.txt
+
+hdfs dfs -put alice.txt holmes.txt frankenstein.txt books
+
+hdfs dfs -ls books
+```
+
+북 디렉토리에 있는 모든 파일에 대해 워드 카운트를 실행하고 output에 저장합니다.
+
+```bash
+yarn jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar wordcount "books/*" output
+```
+
+이제 output에 들어간 워드 카운트 결과를 확인합니다.
+
+```bash
+hdfs dfs -ls output
+
+hdfs dfs -cat output/part-r-00000 | less
+```
