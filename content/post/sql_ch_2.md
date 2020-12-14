@@ -287,7 +287,6 @@ MariaDB [gregs_list]> SELECT drink_name, main, second FROM easy_drinks WHERE mai
 4 rows in set (0.001 sec)
 ```
 
-
 ### 쿼리들의 결합
 
 하나의 조건이 아닌 여러 조건을 동시에 만족하는 데이터를 가져오고 싶은 경우 어떻게 해야할까요?
