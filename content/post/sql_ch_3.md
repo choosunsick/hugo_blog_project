@@ -8,7 +8,7 @@ categories: ["SQL"]
 
 ## 3장
 
-이 글은 MYSQL 문법을 복습할 겸해서 HEAD FIRST SQL 책을 요약정리 한 것입니다.
+이 글은 MYSQL 문법을 복습할 겸해서 [HEAD FIRST SQL 책](http://www.yes24.com/Product/Goods/2922303?OzSrank=2)을 요약정리 한 것입니다.
 
 2장에서는 데이터를 가져오는 방법에 대해 알아보았습니다. SELECT 문의 사용 방법에 대해 다시 확인하고 싶으시다면 [링크](https://choosunsick.github.io/post/sql_ch_2/)를 참조해 주시기 바랍니다.
 

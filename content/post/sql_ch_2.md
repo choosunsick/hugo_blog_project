@@ -8,7 +8,7 @@ categories: ["SQL"]
 
 ## 2장
 
-이 글은 MYSQL 문법을 복습할 겸해서 HEAD FIRST SQL 책을 요약정리 한 것입니다.
+이 글은 MYSQL 문법을 복습할 겸해서 [HEAD FIRST SQL 책](http://www.yes24.com/Product/Goods/2922303?OzSrank=2)을 요약정리 한 것입니다.
 
 1장에서는 테이블 만드는 방법과 지우는 방법 데이터를 입력하는 방법을 배웠습니다. 이번 2장에서는 데이터를 가져오는 방법에 대해 알아봅시다.현재 데이터베이스에는 1장에서 만든 my_contacts 테이블과 doughnut_list 테이블이 남아있습니다. 이 테이블들을 지우거나 만드는 방법을 잊으셨다면, [링크](https://choosunsick.github.io/post/sql_ch_1/)를 참조해 주시기 바랍니다.
 
