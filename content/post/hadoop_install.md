@@ -26,7 +26,7 @@ cd
 
 **아래의 코드는 자신이 가진 모든 라즈베리파이에서 실행하는 코드입니다.**
 
-먼저 아래 명령어로 라즈베리파이에 ssh로 접속해줍니다. `ssh-keygen` 을 통해 호스트의 권한을 새로 만듭니다. ssh를 통해 접속을 하게 되면 비밀번호를 치라고 하는데 초기 비밀번호는 raspberry 입니다. 앞으로 재접속할 때마다 사용할 예정이니 외워두는게 좋습니다.
+먼저 아래 명령어로 라즈베리파이에 ssh로 접속해줍니다. `ssh-keygen` 을 통해 호스트의 권한을 새로 만듭니다. ssh를 통해 접속을 하게 되면 비밀번호를 치라고 하는데 초기 비밀번호는 raspberry 입니다. 저는 비밀번호를 변경하지 않고 진행할 예정이니 외워두는게 좋습니다. 참고로 보안을 위해서 각 라즈베리파이의 비밀번호를 수정해주어야 합니다. 
 
 ```bash
 ssh-keygen -R raspberrypi.local
@@ -40,13 +40,15 @@ sudo apt-get update
 sudo apt-get upgrade -y
 ```
 
-아래의 명령어로 설정에 들어가고 시스템 옵션 Hostname 칸을 눌러 사용자 이름을 변경할 수 있습니다. 저는 3개의 라즈베리 파이가 있고 그 중 하나를 마스터로 사용하고 나머지 둘을 워커로 사용할 것입니다. 따라서 마스터로 사용할 라즈베리파이의 이름을 master로 변경해줍니다. 워커가 될 라즈베리파이의 이름은 worker1, worker2로 설정합니다. 이름을 재설정하면 자동으로 리부팅 됩니다.
+아래의 명령어로 설정에 들어가고 시스템 옵션 Hostname 칸을 눌러 사용자 이름을 변경할 수 있습니다. 저는 3개의 라즈베리 파이가 있고 그 중 하나를 마스터로 사용하고 나머지 둘을 워커로 사용할 것입니다. 따라서 마스터로 사용할 라즈베리파이의 이름을 master로 변경해줍니다. 워커가 될 라즈베리파이의 이름은 worker1, worker2로 설정합니다. 이름을 재설정하면 자동으로 리부팅 됩니다. 이름을 재설정하는 이유는 모든 라즈베리파이의 초기
 
 ```bash
 sudo raspi-config
 ```
 
-이름을 변경하고 나면 재접속을 할때 코드가 달라집니다. 마스터의 경우 `ssh pi@master.local`이 되고 첫 번째 워커의 경우 `ssh pi@worker1.local`, 두 번째 워커의 경우 `ssh pi@worker2.local` 가 됩니다. 재접속을 하면 이름이 바뀐 것을 확인하실 수 있습니다.
+![라즈베리파이 설정화면](https://user-images.githubusercontent.com/19144813/103336438-8673ae00-4abb-11eb-8a9c-17cd76159f00.png)
+
+모든 라즈베리파이의 이름을 변경하고 나면 재접속을 할때 접속 주소가 달라집니다. 마스터(master)의 경우 `ssh pi@master.local`이 되고 이름을 변경한 첫 번째 워커(worker1)의 경우 접속 주소는 `ssh pi@worker1.local`, 이름을 두 번째 워커(worker2)로 변경한 경우 접속 주소 `ssh pi@worker2.local` 가 됩니다. 재접속을 하면 이름이 바뀐 것을 확인하실 수 있습니다.
 재접속을 할때 keygen을 다시 쳐야할 수도 있습니다. 그럴 때는 `ssh-keygen -R master.local` 처럼 기존의 코드에서 바뀐이름으로 쳐주면 다시 접속할 수 있습니다.
 
 - java와 vim 설치하기
@@ -153,6 +155,8 @@ scp ~/.ssh/authorized_keys worker2:~/.ssh/authorized_keys
 scp ~/.ssh/config worker1:~/.ssh/config
 scp ~/.ssh/config worker2:~/.ssh/config
 ```
+
+- 서로 연동을 하면 마스터의 라즈베리파이에서 각 워커들에 접속할 수 있습니다.
 
 ## 마스터에서 다른 라즈베리파이(워커) 조작하기
 
@@ -550,6 +554,7 @@ jps 를 쳤을때 마스터에는 namenode가 있고 워커 라즈베리파이�
 
 ```bash
 yarn node –list
+hadoop dfsadmin -report
 ```
 
 위 명령어를 쳐서 자신의 워커 개수만큼의 노드 수가 나오면 분산 시스템이 잘 적용된 것입니다. 이외에도 `9870, 8088`등의 번호로 hdfs와 yarn 실행 환경을 웹 상에서 확인하실 수 있습니다. 정확한 방법은 `master.local:9870, master.local:8088` 이며 만약 마스터 이름을 변경했다면 master.local 자리에 자신의 마스터 라즈베리파이의 이름을 적어주어야 합니다.
@@ -592,26 +597,25 @@ hdfs dfs -cat output/part-r-00000 | less
 
 ## spark 설치
 
-spark 설치는 오직 마스터 라즈베리파이에서 이루어집니다. 하둡의 분산 시스템 위에 스파크가 올라가는 것이기 때문에 다른 워커 라즈베리파이에 설치할 필요가 없는 것입니다. 스파크 버전의 최신 버전은 3.0.1 이지만 2.4.7을 받아 줍니다. 왜냐하면 최신 스파크 3.0.1 with hadooop3.2 는 자바 가상머신과 충돌이 일어날 수 있기 때문입니다.
+spark 설치는 오직 마스터 라즈베리파이에서 이루어집니다. 하둡의 분산 시스템 위에 스파크가 올라가는 것이기 때문에 다른 워커 라즈베리파이에 설치할 필요가 없는 것입니다. 스파크 버전의 최신 버전은 3.0.1 이지만 2.4.7을 받아 줍니다. 왜냐하면 최신 스파크 3.0.1 with hadooop3.2 는 자바 가상머신과 충돌이 일어날 수 있기 때문입니다. 또한 외부 접속용 클러스터 매니저인 livy와도 충돌이 일어날 수 있습니다.
 
 아래의 명령어로 스파크를 설치하고 압축을 해제해 줍니다. 압축을 해제한 이후에는 스파크 파일의 내용을 옮겨주고 파일에 권한을 부여해줍니다.
 
 ```bash
-wget https://downloads.apache.org/spark/spark-3.0.1/spark-3.0.1-bin-hadoop2.7.tgz
-sudo tar -xvf spark-3.0.1-bin-hadoop2.7.tgz -C /opt/
-rm spark-3.0.1-bin-hadoop2.7.tgz && cd /opt
-sudo mv spark-3.0.1-bin-hadoop2.7 spark
+wget https://downloads.apache.org/spark/spark-2.4.7/spark-2.4.7-bin-hadoop2.7.tgz
+sudo tar -xvf spark-2.4.7-bin-hadoop2.7.tgz -C /opt/
+rm spark-2.4.7-bin-hadoop2.7.tgz && cd /opt
+sudo mv spark-2.4.7-bin-hadoop2.7 spark
 sudo chown pi:pi -R /opt/spark
 ```
 
-하둡과 마찬가지로
+하둡과 마찬가지로  bashrc 파일에 하둡 설정을 적어준 곳 뒤에 이어서 스파크 설정도 적어줍니다.
 
 ```bash
 vim ~/.bashrc
 ```
 
 ```bash
-# bashrc 파일에 하둡 설정을 적어준 곳 뒤에 이어서 스파크 설정도 적어줍니다.
 export SPARK_HOME=/opt/spark
 export PATH=$PATH:$SPARK_HOME/bin
 export YARN_CONF_DIR=$HADOOP_HOME/etc/hadoop
@@ -624,6 +628,26 @@ source ~/.bashrc
 spark-shell --version
 ```
 
-## 스파크 예제 실행하기
+## spark 예제로 작동 확인하기
 
-스파크가 잘 작동하는지 확인하기 위해 pi값을 구하는 예제를 실행합니다.
+스파크의 예제는 파이 값(3.14...)을 확인하는 것입니다. 파이 값을 계산하는 예제는 스파크 기본 예제로 있습니다.
+
+```bash
+spark-submit --master yarn --deploy-mode cluster --class org.apache.spark.examples.SparkPi $SPARK_HOME/examples/jars/spark-examples_2.11-2.4.7.jar
+```
+
+얀 클러스터 모드로 작동한 예제의 결괏값은 하둡 웹 UI에서 찾아볼 수 있습니다. "master.local:8088" 주소로 들어가면 아래와 같은 화면이 보입니다 이 화면에서 애플리케이션 id를 눌러줍니다.
+
+![하둡웹UI](https://user-images.githubusercontent.com/19144813/103395011-44a43f80-4b6f-11eb-9988-9f7560096088.png)
+
+그 다음에 밑으로 내려 보면 아래 화면이 보입니다. 이 화면에서 logs를 클릭한 다음 **주소에 worker2 다음에 .local을 붙이면** 접속할 수 있습니다.
+
+![로그기록](https://user-images.githubusercontent.com/19144813/103395015-45d56c80-4b6f-11eb-9c59-a54d99221382.png)
+
+주소에 .local을 붙이고 접속하면 아래와 같은 화면이 보입니다. 이 화면에서 맨 마지막 줄에 있는 "stdout : Total file length is 33 bytes."를 클릭합니다.
+
+![앱의 로그](https://user-images.githubusercontent.com/19144813/103395097-a5cc1300-4b6f-11eb-9ae0-b4d6e99fd8c8.png)
+
+그러면 최종적으로 아래 화면과 같이 파이(3.14 ...)값을 확인할 수 있습니다.
+
+![파이 값 확인](https://user-images.githubusercontent.com/19144813/103395153-065b5000-4b70-11eb-9fed-b06b98753397.png)
