@@ -1,9 +1,9 @@
 ---
-title: "라즈베리파이 클러스터에 하둡 설치하기"
+title: "라즈베리파이 yarn 클러스터에 하둡(hadoop)과 스파크(spark) 설치하기"
 date: 2020-12-07T18:46:36+09:00
 draft: false
-tags: ["Hadoop","raspberrypi"]
-categories: ["raspberrypi"]
+tags: ["Hadoop","raspberrypi","Spark"]
+categories: ["Hadoop"]
 ---
 
 ## 라즈베리파이 os 설치하기
@@ -15,7 +15,7 @@ raspberrypi imager를 통해 라즈베리파이의 os를 깔아줍니다. 해당
 설치가 종료된후 sd 카드가 자동으로 언마운트 되므로 다시 삽입 해주신 후 터미널이나 cmd를 열고 아래와 같이 치고 sd카드를 뺀 후 라즈베리파이에 장착해 줍니다. 같은 과정을 모든 라즈베리파이 수 만큼 반복해줍니다. 이 작업은 라즈베리 파이 ssh를 활성화 해주기 위함입니다.
 
 ```bash
-cd ~/Volumes/boot
+cd /Volumes/boot
 touch ssh
 cd
 ```
@@ -240,7 +240,6 @@ export HADOOP_INSTALL=$HADOOP_HOME
 export HADOOP_MAPRED_HOME=$HADOOP_HOME
 export HADOOP_COMMON_HOME=$HADOOP_HOME
 export HADOOP_HDFS_HOME=$HADOOP_HOME
-export HADOOP_INSTALL=$HADOOP_HOME
 export YARN_HOME=$HADOOP_HOME
 export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
 export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
