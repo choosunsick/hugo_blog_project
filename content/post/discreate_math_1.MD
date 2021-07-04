@@ -3,7 +3,7 @@ title: "이산 수학 정리 1 - 선형 탐색"
 date: 2021-07-04T13:15:12+09:00
 draft: False
 tags: ["이산수학","Rust"]
-categories: ["이산수학"]
+categories: ["이산수학","Rust"]
 ---
 
 3월부터 공부한 이산수학 알고리즘 개념들을 정리합니다. 교재는 Rosen의 이산수학 8판 입니다.
