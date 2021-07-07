@@ -23,7 +23,6 @@ fn main(){
     let mut tmp: Vec<i32> = vec![1, 2, 3, 5, 6, 7, 8, 10, 12, 13, 15, 16, 18, 19, 20, 22];
     
     println!("{}",linear_search(& mut tmp,19));
-    println!("{}",linear_search_re(& mut tmp,0,16,19));
 }
 
 fn linear_search(v:&mut Vec<i32>, x:i32) -> usize{
@@ -39,19 +38,6 @@ fn linear_search(v:&mut Vec<i32>, x:i32) -> usize{
     else{
         let location = 0;
         return location
-    }
-}
-
-fn linear_search_re(v:&mut Vec<i32>, i:usize,j:usize,x:i32) -> usize {
-    let tmp = v[i];
-    if tmp == x{
-        return i
-    }
-    else if i == j{
-        return 0
-    }
-    else{
-        return linear_search_re(v,i+1,j,x)
     }
 }
 

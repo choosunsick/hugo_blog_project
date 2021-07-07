@@ -26,24 +26,6 @@ fn main(){
     let mut tmp: Vec<i32> = vec![1, 2, 3, 5, 6, 7, 8, 10, 12, 13, 15, 16, 18, 19, 20, 22];
     
     println!("{}",binary_search(& mut tmp,19));
-    println!("{}",binary_search_re(& mut tmp,0,16,19));
-}
-
-fn binary_search_re(v:&mut Vec<i32>, i:usize,j:usize,x:i32) -> usize{
-    let m: usize = (i+j)/2;
-    let tmp = v[m];
-    if v[m] == x{
-        return m
-    }
-    else if x < v[m] && i < m{
-        return binary_search_re(v,i,m-1,x)
-    }
-    else if x > v[m] && j > m{
-        return binary_search_re(v,m+1,j,x)
-    }
-    else{
-        return 0
-    }
 }
 
 fn binary_search(v:&mut Vec<i32>,x:i32) -> usize{
