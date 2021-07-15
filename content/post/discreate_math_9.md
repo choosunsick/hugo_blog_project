@@ -37,6 +37,7 @@ categories: ["이산수학","Rust"]
 ```Rust
 use std::fs;
 use std::time::Instant;
+
 fn main() {
     let now = Instant::now();
     println!("{:?}",fibonacci_re(20))
