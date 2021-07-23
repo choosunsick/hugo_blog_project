@@ -73,14 +73,14 @@ use rand::Rng;
 
 fn main() {
     let now = Instant::now();
-    println!("100회 시뮬레이션 추정값: {:?}",simulation(100));
+    println!("100회 시뮬레이션 추정값: {:?}",simulation(100,100000));
     let after = Instant::now();
     println!("100회 시뮬레이션 시간: {:?}", after.checked_duration_since(now));
-    println!("1000회 시뮬레이션 추정값: {:?}",simulation(1000));
-    println!("10000회 시뮬레이션 추정값: {:?}",simulation(10000));
-    println!("점 100만개 100회 시뮬레이션 추정값: {:?}",simulation2(100));
-    println!("점 100만개 1000회 시뮬레이션 추정값: {:?}",simulation2(1000));
-    println!("점 100만개 10000회 시뮬레이션 추정값: {:?}",simulation2(10000));
+    println!("1000회 시뮬레이션 추정값: {:?}",simulation(1000,100000));
+    println!("10000회 시뮬레이션 추정값: {:?}",simulation(10000,100000));
+    println!("점 100만개 100회 시뮬레이션 추정값: {:?}",simulation(100,1000000));
+    println!("점 100만개 1000회 시뮬레이션 추정값: {:?}",simulation(1000,1000000));
+    println!("점 100만개 10000회 시뮬레이션 추정값: {:?}",simulation(10000,1000000));
 }
 
 fn pi(n:i32) -> f32{
@@ -113,15 +113,6 @@ fn simulation(n:i32)->f32{
     }
     return mean(&vec)
 }
-
-fn simulation2(n:i32)->f32{
-    let mut vec = Vec::new();
-    for _ in 0..n{
-        vec.push(pi(1000000));
-    }
-    return mean(&vec)
-}
-
 
 ```
 
