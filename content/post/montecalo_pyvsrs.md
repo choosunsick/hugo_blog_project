@@ -65,38 +65,60 @@ print(simulation(10000))
 
 ## rust 구현
 
-아래 코드에서 사용하는 rand 크레이트를 cargo.toml에 추가해주어야 코드가 작동합니다. 추가 방법은 [dependencies] 칸 아래 `rand = "0.8"`를 적어주는 것입니다. 
+아래 코드에서 사용하는 rand 크레이트를 cargo.toml에 추가해주어야 코드가 작동합니다. 추가 방법은 [dependencies] 칸 아래 `rand = "0.8"`를 적어주는 것입니다. pi 함수의 `rng.gen_range(-1.0..1.0)` 부분은 두 수의 범위 내의 랜덤한 숫자를 생성하는 함수입니다. 이 함수는 rand crate에 속해 있는 함수 입니다. 이에 따라 rand 크레이트를 사용하기 위한 과정이 필요합니다. `powi()` 함수는 러스트의 기본 함수로 어떤 값을 정수 제곱 해주는 함수입니다. 러스트의 경우 정수 제곱 배가 아닌 경우를 위한 함수도 존재합니다. 그 함수는 `powf()`입니다. 참고로 `sqrt()` 함수는 루트를 의미하는 기본 함수입니다.
 
 ```rust
-use std::time::Instant;
 use rand::Rng;
+use std::time::Instant;
 
 fn main() {
+    let hundred_thousand = 100000;
+    let million = 1000000;
     let now = Instant::now();
-    println!("100회 시뮬레이션 추정값: {:?}",simulation(100,100000));
+    println!(
+        "100회 시뮬레이션 추정값: {:?}",
+        simulation(100, hundred_thousand)
+    );
     let after = Instant::now();
-    println!("100회 시뮬레이션 시간: {:?}", after.checked_duration_since(now));
-    println!("1000회 시뮬레이션 추정값: {:?}",simulation(1000,100000));
-    println!("10000회 시뮬레이션 추정값: {:?}",simulation(10000,100000));
-    println!("점 100만개 100회 시뮬레이션 추정값: {:?}",simulation(100,1000000));
-    println!("점 100만개 1000회 시뮬레이션 추정값: {:?}",simulation(1000,1000000));
-    println!("점 100만개 10000회 시뮬레이션 추정값: {:?}",simulation(10000,1000000));
+    println!(
+        "100회 시뮬레이션 시간: {:?}",
+        after.checked_duration_since(now)
+    );
+    println!(
+        "1000회 시뮬레이션 추정값: {:?}",
+        simulation(1000, hundred_thousand)
+    );
+    println!(
+        "10000회 시뮬레이션 추정값: {:?}",
+        simulation(10000, hundred_thousand)
+    );
+    println!(
+        "점 100만개 100회 시뮬레이션 추정값: {:?}",
+        simulation(100, million)
+    );
+    println!(
+        "점 100만개 1000회 시뮬레이션 추정값: {:?}",
+        simulation(1000, million)
+    );
+    println!(
+        "점 100만개 10000회 시뮬레이션 추정값: {:?}",
+        simulation(10000, million)
+    );
 }
 
-fn pi(n:i32) -> f32{
-
+fn pi(n: i32) -> f32 {
     let mut cnt = 0;
     let mut rng = rand::thread_rng();
-    for _ in 0..n{
-       let x = rng.gen_range(-1.0..1.0);
-       let y = rng.gen_range(-1.0..1.0);
-       let nums = f32::powi(x,2)+f32::powi(y,2);
-       if nums.sqrt() < 1.0{
-           cnt += 1;
+    for _ in 0..n {
+        let x = rng.gen_range(-1.0..1.0);
+        let y = rng.gen_range(-1.0..1.0);
+        let nums = f32::powi(x, 2) + f32::powi(y, 2);
+        if nums.sqrt() < 1.0 {
+            cnt += 1;
         }
     }
-    return (4 * cnt) as f32 / n as f32
-} 
+    return (4 * cnt) as f32 / n as f32;
+}
 
 fn mean(data: &Vec<f32>) -> Option<f32> {
     let sum = data.iter().sum::<f32>() as f32;
@@ -108,12 +130,12 @@ fn mean(data: &Vec<f32>) -> Option<f32> {
     }
 }
 
-fn simulation(n:i32,num:i32) -> Option<f32> {
+fn simulation(n: i32, num: i32) -> Option<f32> {
     let mut vec = Vec::new();
-    for _ in 0..n{
+    for _ in 0..n {
         vec.push(pi(num));
     }
-    return mean(&vec)
+    return mean(&vec);
 }
 ```
 
