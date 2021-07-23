@@ -98,22 +98,23 @@ fn pi(n:i32) -> f32{
     return (4 * cnt) as f32 / n as f32
 } 
 
-fn mean(numbers: &Vec<f32>) -> f32 {
+fn mean(data: &Vec<f32>) -> Option<f32> {
+    let sum = data.iter().sum::<f32>() as f32;
+    let count = data.len();
 
-    let sum: f32 = numbers.iter().sum();
-
-    sum as f32 / numbers.len() as f32
-
+    match count {
+        positive if positive > 0 => Some(sum / count as f32),
+        _ => None,
+    }
 }
 
-fn simulation(n:i32)->f32{
+fn simulation(n:i32,num:i32) -> Option<f32> {
     let mut vec = Vec::new();
     for _ in 0..n{
-        vec.push(pi(100000));
+        vec.push(pi(num));
     }
     return mean(&vec)
 }
-
 ```
 
 ## 작동 시간 비교
