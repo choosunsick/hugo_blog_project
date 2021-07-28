@@ -34,11 +34,11 @@ diff = [abs(3.14159265359 -i) for i in pi_set]
 
 plt.plot(range(1000,101000,1000),diff)
 plt.ylabel('diff')
-plt.xlabel('point_num')
+plt.xlabel('number of points')
 plt.show()
 ```
 
-![점 개수 변화에 따른 파이 값과 차이](https://user-images.githubusercontent.com/19144813/127138086-5b9f291e-70e4-4ca1-8447-98ae007d8361.png)
+![점 개수 변화에 따른 파이 값과 차이](https://user-images.githubusercontent.com/19144813/127267133-80a3ac9c-24ff-4f5b-9b62-8ce49f2a1feb.png)
 
 ## 실험 결과
 
